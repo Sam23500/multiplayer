@@ -40,7 +40,7 @@ func load_game():
 	$MainMenuStuff.visible = false
 	
 func join_game():
-	NetworkManager.join_game()
+	NetworkManager.join_game($MainMenuStuff/HostIP.text)
 	# Start a timer to check if joining
 	connection_timer.start()
 	$MainMenuStuff/PlayersJoined.text = "Joining..."
