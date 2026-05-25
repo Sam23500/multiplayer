@@ -10,6 +10,9 @@
 properties/0/path = NodePath(".:syncPos")
 properties/0/spawn = true
 properties/0/replication_mode = 1
+properties/1/path = NodePath(".:health")
+properties/1/spawn = true
+properties/1/replication_mode = 1
 
 [node name="Player" type="CharacterBody3D" unique_id=2125561348]
 script = ExtResource("1_onrkg")
@@ -20,15 +23,14 @@ mesh = SubResource("CapsuleMesh_4flbx")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=531076163]
 shape = SubResource("CapsuleShape3D_onrkg")
 
-[node name="Player ID" type="Label" parent="." unique_id=1448224325]
-offset_left = -35.0
-offset_top = -89.0
-offset_right = 35.0
-offset_bottom = -66.0
-text = "Player ID"
-metadata/_edit_use_anchors_ = true
-
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1346527140]
 replication_interval = 0.025
 replication_config = SubResource("SceneReplicationConfig_onrkg")
 visibility_update_mode = 1
+
+[node name="PlayerInfoDisplay" type="SubViewport" parent="." unique_id=1841744970]
+
+[node name="HealthBar" type="ProgressBar" parent="PlayerInfoDisplay" unique_id=1633895547]
+offset_right = 4.0
+offset_bottom = 27.0
+value = 100.0

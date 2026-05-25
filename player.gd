@@ -1,6 +1,10 @@
+class_name Player
 extends CharacterBody3D
 
 const JUMP_VELOCITY: float = 4.5
+
+var max_health := 100
+var health := 100
 
 var gravity := 9.8 
 
@@ -8,12 +12,15 @@ var max_speed: float = 5.0
 
 var syncPos := Vector3(0.0, 0.0, 0.0)
 
+@onready var healthbar = $PlayerInfoDisplay/HealthBar
+
 func _enter_tree():
 	# Doing this here instead of on ready prevents bugs.
 	set_multiplayer_authority(int(str(name)))
 	if is_multiplayer_authority():
 		var cam = preload("res://player_cam.tscn").instantiate()
 		add_child(cam)
+		remove_child($PlayerInfoDisplay)
 
 func _ready() -> void:	
 	syncPos = global_position
@@ -29,10 +36,13 @@ func _physics_process(delta: float) -> void:
 		position = lerp(position, syncPos, 0.5)
 		return
 	
+	healthbar.value = health
+	
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 	
 	if Input.is_action_just_pressed("jump") and is_on_floor():
+		health -= 10
 		velocity.y = JUMP_VELOCITY
 	
 	var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
