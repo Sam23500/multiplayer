@@ -12,22 +12,23 @@ var max_speed: float = 5.0
 
 var syncPos := Vector3(0.0, 0.0, 0.0)
 
-@onready var healthbar = $PlayerInfoDisplay/HealthBar
+@onready var info_display := $PlayerInfoDisplay
+@onready var healthbar := $PlayerInfoDisplay/SubViewport/HealthBar
 
 func _enter_tree():
 	# Doing this here instead of on ready prevents bugs.
 	set_multiplayer_authority(int(str(name)))
 	if is_multiplayer_authority():
-		var cam = preload("res://player_cam.tscn").instantiate()
+		var cam := preload("res://player_cam.tscn").instantiate()
 		add_child(cam)
-		remove_child($PlayerInfoDisplay)
 
-func _ready() -> void:	
+func _ready() -> void:
 	syncPos = global_position
 	
 	GameManager.player_info[int(name)] = {"spawnpoint":syncPos, "node":self}
 	NetworkManager.player_disconnected.connect(_on_player_disconnected)
-	
+	if is_multiplayer_authority():
+		remove_child(info_display)
 func _physics_process(delta: float) -> void:
 	
 	if not is_multiplayer_authority():
