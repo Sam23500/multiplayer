@@ -25,7 +25,6 @@ func _enter_tree():
 func _ready() -> void:	
 	syncPos = global_position
 	
-	$"Player ID".text = name
 	GameManager.player_info[int(name)] = {"spawnpoint":syncPos, "node":self}
 	NetworkManager.player_disconnected.connect(_on_player_disconnected)
 	
