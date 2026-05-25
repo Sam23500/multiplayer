@@ -33,9 +33,10 @@ func _physics_process(delta: float) -> void:
 	if not is_multiplayer_authority():
 		# Making it 30fps (save bandwidth) and lerping with local fps to hide the stutter
 		position = lerp(position, syncPos, 0.5)
+		healthbar.value = health
 		return
 	
-	healthbar.value = health
+	
 	
 	if not is_on_floor():
 		velocity.y -= gravity * delta
