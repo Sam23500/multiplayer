@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dgh5mt7w2shk1"]
 
-[ext_resource type="Script" path="res://root.gd" id="1_pyidc"]
+[ext_resource type="Script" uid="uid://c7t18ge8j1f1f" path="res://root.gd" id="1_pyidc"]
 [ext_resource type="PackedScene" uid="uid://dckmy2r1vu3re" path="res://level.tscn" id="2_28aoi"]
 [ext_resource type="Theme" uid="uid://33p8pjnjvodd" path="res://assets/theme.tres" id="2_vvh5c"]
 [ext_resource type="Texture2D" uid="uid://f423j2srnckj" path="res://assets/Bg.png" id="3_28aoi"]
@@ -36,10 +36,12 @@ offset_bottom = 40.0
 
 [node name="HostIP" type="LineEdit" parent="MainMenuStuff" unique_id=1651144391]
 layout_mode = 0
-offset_left = 930.0
-offset_top = 959.0
-offset_right = 1369.5
-offset_bottom = 1050.0
+offset_left = 978.0
+offset_top = 955.0
+offset_right = 1337.0
+offset_bottom = 1046.0
+theme = ExtResource("2_vvh5c")
+theme_override_font_sizes/font_size = 40
 placeholder_text = "Host IP"
 
 [node name="ButtonContainer" type="HBoxContainer" parent="MainMenuStuff" unique_id=511784848]
