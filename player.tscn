@@ -1,6 +1,8 @@
 [gd_scene format=3 uid="uid://bbb6uhyhkrkuo"]
 
 [ext_resource type="Script" uid="uid://cp6o0egq4smi0" path="res://player.gd" id="1_onrkg"]
+[ext_resource type="Theme" uid="uid://33p8pjnjvodd" path="res://assets/theme.tres" id="2_onrkg"]
+[ext_resource type="Script" uid="uid://cub1m0l3hrl8t" path="res://name_tag.gd" id="3_i3pqv"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_4flbx"]
 
@@ -40,11 +42,21 @@ billboard = 2
 texture = SubResource("ViewportTexture_4flbx")
 
 [node name="SubViewport" type="SubViewport" parent="PlayerInfoDisplay" unique_id=1841744970]
-size = Vector2i(200, 40)
+size = Vector2i(200, 120)
 
 [node name="HealthBar" type="ProgressBar" parent="PlayerInfoDisplay/SubViewport" unique_id=1633895547]
+offset_top = 80.0
 offset_right = 200.0
-offset_bottom = 40.0
+offset_bottom = 120.0
 theme_override_styles/fill = SubResource("StyleBoxFlat_4flbx")
 value = 100.0
 show_percentage = false
+
+[node name="NameTag" type="Label" parent="PlayerInfoDisplay/SubViewport" unique_id=1535584897]
+offset_right = 200.0
+offset_bottom = 80.0
+theme = ExtResource("2_onrkg")
+text = "User"
+horizontal_alignment = 1
+vertical_alignment = 2
+script = ExtResource("3_i3pqv")

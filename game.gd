@@ -18,7 +18,7 @@ func spawn_all_players(player_dict: Dictionary):
 	
 	if player_dict.is_empty():
 		# singleplayer
-		player_dict = {1:"host"}
+		player_dict = {1:{"connection_type": "host"}}
 		pass
 	
 	var spawnpoints := spawner.get_children()

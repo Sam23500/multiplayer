@@ -9,13 +9,14 @@ signal server_disconnected
 
 const PORT = 36666
 const DEFAULT_SERVER_IP = "127.0.0.1" # IPv4 localhost, replace with server
-const MAX_CONNECTIONS = 5
+const MAX_CONNECTIONS = 4
 
 # This will contain player info for every player,
 # with the keys being each player's unique IDs.
-var players = {}
+var players : Dictionary[int, Dictionary] = {1: {}}
 
 var connection_type := "player"
+var local_name := ""
 
 func _ready():
 	multiplayer.peer_connected.connect(_on_player_connected)
@@ -39,8 +40,7 @@ func join_game(address = ""):
 		print("Couldnt join")
 		return error
 	multiplayer.multiplayer_peer = peer
-	
-	
+
 
 
 func create_game():
@@ -49,9 +49,10 @@ func create_game():
 	if error:
 		return error
 	multiplayer.multiplayer_peer = peer
-
-	players[1] = connection_type
-	player_connected.emit(1, connection_type)
+	
+	players[1]["connection_type"] = connection_type
+	players[1]["username"] = local_name
+	player_connected.emit(1,  players[1])
 
 
 #func remove_multiplayer_peer():
@@ -61,7 +62,7 @@ func create_game():
 # When a peer connects, send them my player info.
 # This allows transfer of all desired data for each player, not only the unique ID.
 func _on_player_connected(id):
-	_register_player.rpc_id(id, connection_type)
+	_register_player.rpc_id(id, players[multiplayer.get_unique_id()])
 
 
 @rpc("any_peer", "reliable")
@@ -80,8 +81,10 @@ func _on_player_disconnected(id):
 func _on_connected_ok():
 	print("Connected")
 	var peer_id = multiplayer.get_unique_id()
-	players[peer_id] = connection_type
-	player_connected.emit(peer_id, connection_type)
+	players.get_or_add(peer_id, {})
+	players[peer_id]["connection_type"] = connection_type
+	players[peer_id]["username"] = local_name
+	player_connected.emit(peer_id, players[peer_id])
 
 
 func _on_connected_fail():
@@ -94,3 +97,11 @@ func _on_server_disconnected():
 	multiplayer.multiplayer_peer = OfflineMultiplayerPeer.new()
 	players.clear()
 	server_disconnected.emit()
+
+
+@rpc("any_peer", "call_local")
+func update_name(new_name: String):
+	print("change received")
+	local_name = new_name
+	var player_id = multiplayer.get_remote_sender_id()
+	players[player_id]["username"] = new_name

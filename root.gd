@@ -19,9 +19,9 @@ func _ready() -> void:
 	NetworkManager.player_disconnected.connect(_on_player_disconnected)
 	NetworkManager.server_disconnected.connect(_on_server_disconnected)
 
-func _on_player_connected(_pid, info):
+func _on_player_connected(pid, info):
 	connection_timer.stop()
-	if info == "dedicated":
+	if info["connection_type"] == "dedicated":
 		dedicated_correction = 1
 	$MainMenuStuff/PlayersJoined.text = "Players in Lobby: %s" %(NetworkManager.players.size() - dedicated_correction)
 	$MainMenuStuff/PlayersJoined.visible = true
@@ -40,6 +40,7 @@ func load_game():
 	$MainMenuStuff.visible = false
 	
 func join_game():
+	print(multiplayer.get_unique_id())
 	NetworkManager.join_game($MainMenuStuff/HostIP.text)
 	# Start a timer to check if joining
 	connection_timer.start()
@@ -61,3 +62,8 @@ func _on_server_disconnected() -> void:
 	$MainMenuStuff.visible=true
 	$Background.visible = true
 	$MainMenuStuff/PlayersJoined.text = "Lost Connection to Server"
+
+
+func _on_name_changed(new_text: String) -> void:
+	print("change detected")
+	NetworkManager.update_name.rpc(new_text)

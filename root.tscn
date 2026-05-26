@@ -34,6 +34,16 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
+[node name="Name" type="LineEdit" parent="MainMenuStuff" unique_id=558025744]
+layout_mode = 0
+offset_left = 204.0
+offset_top = 955.0
+offset_right = 563.0
+offset_bottom = 1046.0
+theme = ExtResource("2_vvh5c")
+theme_override_font_sizes/font_size = 48
+placeholder_text = "Username"
+
 [node name="HostIP" type="LineEdit" parent="MainMenuStuff" unique_id=1651144391]
 layout_mode = 0
 offset_left = 978.0
@@ -119,4 +129,5 @@ horizontal_alignment = 1
 wait_time = 5.0
 one_shot = true
 
+[connection signal="text_changed" from="MainMenuStuff/Name" to="." method="_on_name_changed"]
 [connection signal="timeout" from="ConnectionTimer" to="." method="_on_connection_timer_timeout"]

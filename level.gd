@@ -11,11 +11,11 @@ var is_dedicated = false
 func _ready() -> void:
 	if NetworkManager.players.is_empty():
 		# singleplayer situation
-		NetworkManager.players = {1: NetworkManager.connection_type}
+		NetworkManager.players = {1: {"connection_type": NetworkManager.connection_type}}
 		pass
 	
 	for i in NetworkManager.players:
-		if NetworkManager.players[i] == "dedicated":
+		if NetworkManager.players[i]["connection_type"] == "dedicated":
 			is_dedicated = true
 			print("Running on Dedicated Server")
 	

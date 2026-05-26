@@ -1,14 +1,17 @@
 class_name Player
 extends CharacterBody3D
 
-const JUMP_VELOCITY: float = 4.5
+var id : int
+var username := ""
+
+const JUMP_VELOCITY := 4.5
 
 var max_health := 100
 var health := 100
 
 var gravity := 9.8 
 
-var max_speed: float = 5.0
+var max_speed := 5.0
 
 var syncPos := Vector3(0.0, 0.0, 0.0)
 
@@ -24,11 +27,18 @@ func _enter_tree():
 
 func _ready() -> void:
 	syncPos = global_position
-	
-	GameManager.player_info[int(name)] = {"spawnpoint":syncPos, "node":self}
+	id = int(name)
+	username = NetworkManager.players[id]["username"]
+	GameManager.player_info[id] = {}
+	GameManager.player_info[id]["username"] = username
+	$PlayerInfoDisplay/SubViewport/NameTag.text = username
+	$PlayerInfoDisplay/SubViewport/NameTag.shrink_to_fit()
+	#GameManager.player_info[int(name)] = {"username":username, "spawnpoint":syncPos, "node":self}
 	NetworkManager.player_disconnected.connect(_on_player_disconnected)
 	if is_multiplayer_authority():
 		remove_child(info_display)
+		
+
 func _physics_process(delta: float) -> void:
 	
 	if not is_multiplayer_authority():
