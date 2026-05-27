@@ -145,6 +145,7 @@ func setup_projectile(data):
 	var projectile := projectiles[data[0]].instantiate()
 	projectile.position = data[1]
 	projectile.rotation = data[2]
+	projectile.setup()
 	return projectile
 
 @rpc("any_peer", "call_local")

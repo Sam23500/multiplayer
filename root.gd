@@ -65,5 +65,4 @@ func _on_server_disconnected() -> void:
 
 
 func _on_name_changed(new_text: String) -> void:
-	print("change detected")
 	NetworkManager.update_name.rpc(new_text)

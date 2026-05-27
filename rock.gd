@@ -6,11 +6,15 @@ var used := false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	var forward_dir = -global_transform.basis.z
+	pass
+
+@rpc("authority", "call_local")
+func setup():
+	var forward_dir = -transform.basis.z
 	forward_dir.y = 0
 	forward_dir = forward_dir.normalized()
-	global_position += (forward_dir*1.5)
-	global_position.y = 0
+	position += (forward_dir*1.5)
+	position.y = 0
 	linear_velocity.y = 10
 	add_to_group("interactables")
 
@@ -31,7 +35,7 @@ func hit(from: Vector3):
 	if used:
 		return
 	used = true
-	apply_central_impulse((global_position-from).normalized() * 10)
+	apply_central_impulse((global_position-from).normalized() * 20)
 	remove_from_group("Interactables")
 	deactivate()
 

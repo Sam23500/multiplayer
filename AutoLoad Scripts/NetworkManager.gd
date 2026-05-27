@@ -101,7 +101,6 @@ func _on_server_disconnected():
 
 @rpc("any_peer", "call_local")
 func update_name(new_name: String):
-	print("change received")
 	local_name = new_name
 	var player_id = multiplayer.get_remote_sender_id()
 	players[player_id]["username"] = new_name
