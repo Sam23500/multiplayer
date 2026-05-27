@@ -16,6 +16,7 @@ func setup():
 	position += (forward_dir*1.5)
 	position.y = 0
 	linear_velocity.y = 10
+	#visible = true
 	add_to_group("interactables")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
