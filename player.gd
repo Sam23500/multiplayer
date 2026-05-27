@@ -134,7 +134,7 @@ func _on_player_disconnected(pid) -> void:
 		queue_free()
 	pass
 
-@rpc("authority")
+@rpc("authority", "call_local")
 func spawn_projectile(projectile_name: String, pos: Vector3, dir: Vector3):
 	if !multiplayer.is_server():
 		return
@@ -143,9 +143,7 @@ func spawn_projectile(projectile_name: String, pos: Vector3, dir: Vector3):
 
 func setup_projectile(data):
 	var projectile := projectiles[data[0]].instantiate()
-	#projectile.visible = false
 	projectile.position = data[1]
-	#projectile.position.y = -1
 	projectile.rotation = data[2]
 	projectile.setup()
 	return projectile
