@@ -47,7 +47,7 @@ func deactivate():
 func _on_body_entered(body: Node) -> void:
 	var damage = 2 * linear_velocity.length()
 	var collider_path: NodePath = body.get_path()
-	explode.rpc(collider_path, damage)
+	explode.rpc_id(1, collider_path, damage)
 
 @rpc("authority", "call_local")
 func explode(collider_path: NodePath, damage: int):

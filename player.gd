@@ -144,6 +144,7 @@ func spawn_projectile(projectile_name: String, pos: Vector3, dir: Vector3):
 func setup_projectile(data):
 	var projectile := projectiles[data[0]].instantiate()
 	projectile.position = data[1]
+	projectile.position.y = -1
 	projectile.rotation = data[2]
 	projectile.setup()
 	return projectile
