@@ -119,7 +119,7 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("spell_right") and focus_object:
 		if focus_object is Rock:
 			var rock : Rock = focus_object
-			rock.hit(global_position)
+			rock.hit.rpc(global_position)
 
 
 func _on_player_disconnected(pid) -> void:
@@ -141,3 +141,8 @@ func setup_projectile(data):
 	projectile.position = data[1]
 	projectile.rotation = data[2]
 	return projectile
+
+@rpc("any_peer", "call_local")
+func get_hit(damage: int):
+	if is_multiplayer_authority():
+		health -= damage
