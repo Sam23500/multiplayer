@@ -19,7 +19,6 @@ func _physics_process(delta: float) -> void:
 	if !is_multiplayer_authority():
 		global_position = sync_pos
 		return
-	sync_pos = global_position
 	if position.y < -1:
 		queue_free()
 	if !get_collision_mask_value(1):
@@ -27,10 +26,8 @@ func _physics_process(delta: float) -> void:
 			set_collision_mask_value(1,true)
 	sync_pos = global_position
 
-@rpc("any_peer", "call_local")
+@rpc("authority", "call_local")
 func hit(from: Vector3):
-	if !is_multiplayer_authority():
-		return
 	if used:
 		return
 	used = true
@@ -44,12 +41,11 @@ func deactivate():
 	$MeshInstance3D/Outline.visible = false
 
 func _on_body_entered(body: Node) -> void:
-	explode.rpc(body)
+	var damage = 2 * linear_velocity.length()
+	explode.rpc(body, damage)
 
 @rpc("authority", "call_local")
-func explode(target: Node):
-	if target is Player:
-		target.get_hit.rpc(2 * linear_velocity.length())
-	if target is Rock:
-		target.queue_free()
+func explode(target: Node, damage: int):
+	if target is Player and multiplayer.is_server():
+		target.get_hit.rpc(damage)
 	queue_free()

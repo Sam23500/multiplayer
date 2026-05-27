@@ -11,7 +11,6 @@ var projectile_spawner : MultiplayerSpawner
 var projectiles : Dictionary[String, PackedScene] = {
 	"rock": preload("res://rock.tscn")
 }
-var rock_projectile := preload("res://rock.tscn")
 
 const JUMP_VELOCITY := 4.5
 
@@ -54,6 +53,7 @@ func _ready() -> void:
 	GameManager.player_info[id]["username"] = username
 	$PlayerInfoDisplay/SubViewport/NameTag.text = username
 	$PlayerInfoDisplay/SubViewport/NameTag.shrink_to_fit()
+	projectile_spawner.spawn_function = setup_projectile
 	#GameManager.player_info[int(name)] = {"username":username, "spawnpoint":syncPos, "node":self}
 	NetworkManager.player_disconnected.connect(_on_player_disconnected)
 	if is_multiplayer_authority():
@@ -119,8 +119,14 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("spell_right") and focus_object:
 		if focus_object is Rock:
 			var rock : Rock = focus_object
-			rock.hit.rpc(global_position)
-
+			request_rock_hit.rpc_id(1, rock.get_path(), global_position) 
+@rpc("any_peer", "call_local")
+func request_rock_hit(rock_path: NodePath, hit_from: Vector3):
+	if not multiplayer.is_server():
+		return
+	var rock = get_node_or_null(rock_path)
+	if rock and rock is Rock:
+		rock.hit.rpc(hit_from)
 
 func _on_player_disconnected(pid) -> void:
 	if pid == int(name):
@@ -128,10 +134,9 @@ func _on_player_disconnected(pid) -> void:
 		queue_free()
 	pass
 
-@rpc("any_peer", "call_local")
+@rpc("authority", "call_local")
 func spawn_projectile(projectile_name: String, pos: Vector3, dir: Vector3):
-	projectile_spawner.spawn_function = setup_projectile
-	if !multiplayer.is_server():
+	if !is_multiplayer_authority():
 		return
 	if !projectiles.has(projectile_name): return
 	projectile_spawner.spawn([projectile_name, pos, dir])
