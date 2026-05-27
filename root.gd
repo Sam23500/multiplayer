@@ -1,6 +1,6 @@
 extends Node
 
-@export var level_scene: PackedScene
+@export var game_scene: PackedScene
 var dedicated_correction := 0
 
 @onready var connection_timer: Timer = $ConnectionTimer
@@ -34,8 +34,8 @@ func _on_player_disconnected(_pid):
 func load_game():
 	if multiplayer.is_server():
 		# only server loads scene. MultiplayerSpawner spawns it for everyone
-		var level = level_scene.instantiate()
-		$Levels.add_child(level)
+		var level = game_scene.instantiate()
+		$Game.add_child(level)
 	$Background.visible = false
 	$MainMenuStuff.visible = false
 	

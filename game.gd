@@ -1,37 +1,55 @@
 extends Node
 
-@onready var spawner: Node = $Spawner
+@onready var spawns: Node = $Spawnpoints
+@onready var players: Node = $Players
+
 @export var player_scene:PackedScene
+@onready var player_spawner: MultiplayerSpawner = $Players/PlayerSpawner
 
+var is_dedicated = false
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	spawn_all_players(NetworkManager.players)
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-
-func spawn_all_players(player_dict: Dictionary):
-	
-	if player_dict.is_empty():
-		# singleplayer
-		player_dict = {1:{"connection_type": "host"}}
+	if NetworkManager.players.is_empty():
+		# singleplayer situation
+		NetworkManager.players = {1: {"connection_type": NetworkManager.connection_type}}
 		pass
 	
-	var spawnpoints := spawner.get_children()
-	var pid_array := player_dict.keys()
+	for i in NetworkManager.players:
+		if NetworkManager.players[i]["connection_type"] == "dedicated":
+			is_dedicated = true
+			print("Running on Dedicated Server")
+	
+	# everyone needs to know this
+	player_spawner.spawn_function = spawn_player
+	if multiplayer.is_server():
+		spawn_all_players()
 
+
+func spawn_all_players():
+	var spawnpoints := spawns.get_children()
+	var pid_array := NetworkManager.players.keys()
+	
+	if is_dedicated:
+		pid_array.erase(1)
+		# Removes dedicated server as a player
 	pid_array.sort()  
-	# this makes sure that the spawnpoints are same for all clients
+	# this makes sure that the spawnpoints are in order. Not needed, just debug
 	
 	for i in pid_array.size():
-		var player = player_scene.instantiate()
-		player.position = spawnpoints[i].global_position
-		player.name = str(pid_array[i])
-		player.set_multiplayer_authority(pid_array[i])
-		add_child(player)
-		i+=1
+		var pid = pid_array[i]
+		var spawnpoint = spawnpoints[i].global_position
+		
+		player_spawner.spawn([pid, spawnpoint])
+		
+
+
+func spawn_player(data):
+	var player = player_scene.instantiate()
+	var pid = data[0]
+	var spawnpoint = data[1]
+	player.position = spawnpoint
+	player.name = str(pid)
+	player.projectile_container = $Projectiles
+	player.projectile_spawner = $Projectiles/MultiplayerSpawner
 	
+	return player

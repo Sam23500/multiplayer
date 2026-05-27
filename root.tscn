@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dgh5mt7w2shk1"]
 
 [ext_resource type="Script" uid="uid://c7t18ge8j1f1f" path="res://root.gd" id="1_pyidc"]
-[ext_resource type="PackedScene" uid="uid://dckmy2r1vu3re" path="res://level.tscn" id="2_28aoi"]
+[ext_resource type="PackedScene" uid="uid://dckmy2r1vu3re" path="res://game.tscn" id="2_28aoi"]
 [ext_resource type="Theme" uid="uid://33p8pjnjvodd" path="res://assets/theme.tres" id="2_vvh5c"]
 [ext_resource type="Texture2D" uid="uid://f423j2srnckj" path="res://assets/Bg.png" id="3_28aoi"]
 
@@ -10,14 +10,13 @@ texture = ExtResource("3_28aoi")
 
 [node name="Root" type="Node" unique_id=1635572947]
 script = ExtResource("1_pyidc")
-level_scene = ExtResource("2_28aoi")
+game_scene = ExtResource("2_28aoi")
 
-[node name="Levels" type="Node" parent="." unique_id=687358563]
+[node name="Game" type="Node" parent="." unique_id=687358563]
 
-[node name="LevelSpawner" type="MultiplayerSpawner" parent="Levels" unique_id=1288619795]
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="Game" unique_id=1288619795]
 _spawnable_scenes = PackedStringArray("uid://dckmy2r1vu3re")
 spawn_path = NodePath("..")
-spawn_limit = 1
 
 [node name="Background" type="Panel" parent="." unique_id=407625526]
 modulate = Color(0.241156, 0.241156, 0.241156, 1)
