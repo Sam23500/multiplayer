@@ -119,6 +119,7 @@ func _physics_process(delta: float) -> void:
 		if focus_object is Rock:
 			var rock : Rock = focus_object
 			request_rock_hit.rpc_id(1, rock.get_path(), global_position) 
+
 @rpc("any_peer", "call_local")
 func request_rock_hit(rock_path: NodePath, hit_from: Vector3):
 	if not multiplayer.is_server():

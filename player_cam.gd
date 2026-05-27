@@ -57,7 +57,7 @@ func _physics_process(delta: float) -> void:
 			if previous_focus:
 				deactivate_focus_object(previous_focus)
 	previous_focus = current_focus
-	if current_focus is CollisionObject3D:
+	if current_focus is CollisionObject3D or current_focus == null:
 		player.focus_object = current_focus
 
 func activate_focus_object(collider: Object):
