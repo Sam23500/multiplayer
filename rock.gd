@@ -50,7 +50,6 @@ func explode(collider_path: NodePath, damage: int):
 	queue_free()
 	var target: Node = get_node_or_null(collider_path)
 	if !target:
-		print("missing target")
 		return
 	if target is Player and multiplayer.is_server():
 		target.get_hit.rpc(damage)
