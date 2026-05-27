@@ -35,7 +35,7 @@ func hit(from: Vector3):
 	if used:
 		return
 	used = true
-	from.y = global_position.y
+	from.y = lerp(from.y, global_position.y, 0.5)
 	apply_central_impulse((global_position-from).normalized() * 20)
 	remove_from_group("Interactables")
 	deactivate()

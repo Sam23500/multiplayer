@@ -145,8 +145,8 @@ func setup_projectile(data):
 	var projectile := projectiles[data[0]].instantiate()
 	projectile.position = data[1]
 	projectile.rotation = data[2]
-	projectile.position.x += data[3] * 0.1
-	projectile.position.z += data[4] * 0.1
+	projectile.position.x += data[3] * 0.2
+	projectile.position.z += data[4] * 0.2
 	projectile.setup()
 	return projectile
 
