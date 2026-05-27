@@ -42,10 +42,15 @@ func deactivate():
 
 func _on_body_entered(body: Node) -> void:
 	var damage = 2 * linear_velocity.length()
-	explode.rpc(body, damage)
+	var collider_path: NodePath = body.get_path()
+	explode.rpc(collider_path, damage)
 
 @rpc("authority", "call_local")
-func explode(target: Node, damage: int):
+func explode(collider_path: NodePath, damage: int):
+	queue_free()
+	var target: Node = get_node_or_null(collider_path)
+	if !target:
+		print("missing target")
+		return
 	if target is Player and multiplayer.is_server():
 		target.get_hit.rpc(damage)
-	queue_free()

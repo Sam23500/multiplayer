@@ -97,7 +97,6 @@ func _physics_process(delta: float) -> void:
 		velocity.y -= gravity * delta
 	
 	if Input.is_action_just_pressed("jump") and is_on_floor():
-		health -= 10
 		velocity.y = JUMP_VELOCITY
 	
 	var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
