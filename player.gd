@@ -114,7 +114,7 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	
 	if Input.is_action_just_pressed("spell_left"):
-		spawn_projectile.rpc_id(1, "rock", global_position, global_rotation)
+		spawn_projectile.rpc_id(1, "rock", global_position, global_rotation, velocity.x, velocity.z)
 	if Input.is_action_just_pressed("spell_right") and focus_object:
 		if focus_object is Rock:
 			var rock : Rock = focus_object
@@ -135,16 +135,18 @@ func _on_player_disconnected(pid) -> void:
 	pass
 
 @rpc("authority", "call_local")
-func spawn_projectile(projectile_name: String, pos: Vector3, dir: Vector3):
+func spawn_projectile(projectile_name: String, pos: Vector3, dir: Vector3, x_speed: float, z_speed: float):
 	if !multiplayer.is_server():
 		return
 	if !projectiles.has(projectile_name): return
-	projectile_spawner.spawn([projectile_name, pos, dir])
+	projectile_spawner.spawn([projectile_name, pos, dir, x_speed, z_speed])
 
 func setup_projectile(data):
 	var projectile := projectiles[data[0]].instantiate()
 	projectile.position = data[1]
 	projectile.rotation = data[2]
+	projectile.position.x += data[3] * 0.1
+	projectile.position.z += data[4] * 0.1
 	projectile.setup()
 	return projectile
 

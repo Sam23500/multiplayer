@@ -35,6 +35,7 @@ func hit(from: Vector3):
 	if used:
 		return
 	used = true
+	from.y = global_position.y
 	apply_central_impulse((global_position-from).normalized() * 20)
 	remove_from_group("Interactables")
 	deactivate()
