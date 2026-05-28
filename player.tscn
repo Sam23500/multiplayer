@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://cp6o0egq4smi0" path="res://player.gd" id="1_onrkg"]
 [ext_resource type="Theme" uid="uid://33p8pjnjvodd" path="res://assets/theme.tres" id="2_onrkg"]
 [ext_resource type="Script" uid="uid://cub1m0l3hrl8t" path="res://name_tag.gd" id="3_i3pqv"]
+[ext_resource type="Script" uid="uid://2tfvdojmdccb" path="res://progress_bar.gd" id="4_hqtel"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_4flbx"]
 
@@ -62,3 +63,14 @@ text = "User"
 horizontal_alignment = 1
 vertical_alignment = 2
 script = ExtResource("3_i3pqv")
+
+[node name="PlayerUI" type="Node" parent="." unique_id=239910193]
+
+[node name="ProgressBar" type="ProgressBar" parent="PlayerUI" unique_id=922023557]
+offset_left = 26.0
+offset_top = 1025.0
+offset_right = 342.0
+offset_bottom = 1052.0
+show_percentage = false
+script = ExtResource("4_hqtel")
+metadata/_edit_use_anchors_ = true
