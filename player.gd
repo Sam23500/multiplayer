@@ -43,6 +43,7 @@ func _enter_tree():
 	set_multiplayer_authority(int(str(name)))
 	if is_multiplayer_authority():
 		var cam := preload("res://player_cam.tscn").instantiate()
+		cam.position.y += 0.5
 		add_child(cam)
 
 func _ready() -> void:
