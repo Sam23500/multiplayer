@@ -1,8 +1,11 @@
 class_name Player
 extends CharacterBody3D
 
+signal health_changed(new_value: int)
+
 var id : int
 var username := ""
+var is_local_player := false
 
 var focus_object : CollisionObject3D = null
 
@@ -15,7 +18,12 @@ var projectiles : Dictionary[String, PackedScene] = {
 const JUMP_VELOCITY := 4.5
 
 var max_health := 100
-var health := 100
+var health := 100:
+	set(value):
+		health = value
+		if is_local_player:
+			health_changed.emit(value)
+
 
 var gravity := 9.8 
 
@@ -42,6 +50,7 @@ func _enter_tree():
 	# Doing this here instead of on ready prevents bugs.
 	set_multiplayer_authority(int(str(name)))
 	if is_multiplayer_authority():
+		is_local_player = true
 		var cam := preload("res://player_cam.tscn").instantiate()
 		cam.position.y += 0.5
 		add_child(cam)
@@ -57,13 +66,14 @@ func _ready() -> void:
 	projectile_spawner.spawn_function = setup_projectile
 	#GameManager.player_info[int(name)] = {"username":username, "spawnpoint":syncPos, "node":self}
 	NetworkManager.player_disconnected.connect(_on_player_disconnected)
-	if is_multiplayer_authority():
+	health_changed.connect(GameManager.on_health_changed)
+	if is_local_player:
 		remove_child(info_display)
 		
 
 func _physics_process(delta: float) -> void:
 	
-	if not is_multiplayer_authority():
+	if not is_local_player:
 		# Making it 30fps (save bandwidth) and lerping with local fps to hide the stutter
 		position = lerp(position, syncPos, 0.5)
 		healthbar.value = health

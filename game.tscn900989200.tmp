@@ -98,12 +98,8 @@ texture = ExtResource("4_fc0e3")
 
 [node name="HealthBar" type="ProgressBar" parent="GUI" unique_id=1635133737]
 layout_mode = 0
-offset_left = 35.0
-offset_top = 969.0
-offset_right = 292.0
-offset_bottom = 1053.0
-value = 100.0
-show_percentage = false
+offset_right = 4.0
+offset_bottom = 27.0
 script = ExtResource("5_ryrav")
 
 [node name="MapObjects" type="Node" parent="." unique_id=590791322]
