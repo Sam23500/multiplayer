@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://b3plwqkol4iv1" path="res://player_cam.gd" id="1_mybv6"]
 
 [node name="Camera" type="Camera3D" unique_id=904866085]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 script = ExtResource("1_mybv6")
 
 [node name="RayCast3D" type="RayCast3D" parent="." unique_id=466661291]
