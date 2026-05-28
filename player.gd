@@ -125,7 +125,10 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	
 	if Input.is_action_just_pressed("spell_left"):
-		spawn_projectile.rpc_id(1, "rock", global_position, global_rotation, velocity.x, velocity.z)
+		if Input.is_action_pressed("move_back"):
+			spawn_projectile.rpc_id(1, "rock", global_position, global_rotation, 0, 0)
+		else:
+			spawn_projectile.rpc_id(1, "rock", global_position, global_rotation, velocity.x, velocity.z)
 	if Input.is_action_just_pressed("spell_right") and focus_object:
 		if focus_object is Rock:
 			var rock : Rock = focus_object
