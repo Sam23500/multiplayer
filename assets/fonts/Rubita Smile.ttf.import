@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://drh5vwds7rg3r"
-path="res://.godot/imported/Inter_18pt-Regular.ttf-fe9fc16be1a8ad81227e7167fb371b9d.fontdata"
+uid="uid://dc66l6bjq7ngq"
+path="res://.godot/imported/Rubita Smile.ttf-b10069a090e79a9e2dfacdb862253d93.fontdata"
 
 [deps]
 
-source_file="res://assets/fonts/Inter_18pt-Regular.ttf"
-dest_files=["res://.godot/imported/Inter_18pt-Regular.ttf-fe9fc16be1a8ad81227e7167fb371b9d.fontdata"]
+source_file="res://assets/fonts/Rubita Smile.ttf"
+dest_files=["res://.godot/imported/Rubita Smile.ttf-b10069a090e79a9e2dfacdb862253d93.fontdata"]
 
 [params]
 
