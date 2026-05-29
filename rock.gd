@@ -59,4 +59,9 @@ func explode(collider_path: NodePath, damage: int):
 	if !target:
 		return
 	if target is Player and multiplayer.is_server():
+		#var knock = knockback_calc(position, linear_velocity, target)
+		target.knockback.rpc(linear_velocity)
 		target.get_hit.rpc(damage)
+		
+func knockback_calc(rock_pos: Vector3, rock_vel: Vector3, target:Node):
+	return ((target.global_position - rock_pos).normalized()) * rock_vel.length()

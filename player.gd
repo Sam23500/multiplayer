@@ -43,6 +43,8 @@ var sprint_mode := SprintMode.HELD
 
 var syncPos := Vector3(0.0, 0.0, 0.0)
 
+const PUSH_STRENGTH = 1
+
 @onready var info_display := $PlayerInfoDisplay
 @onready var healthbar := $PlayerInfoDisplay/SubViewport/HealthBar
 
@@ -168,3 +170,9 @@ func setup_projectile(data):
 func get_hit(damage: int):
 	if is_multiplayer_authority():
 		health -= damage
+
+@rpc("any_peer", "call_local")
+func knockback(dir: Vector3):
+	if is_multiplayer_authority():
+		print("knock")
+		velocity += dir * PUSH_STRENGTH

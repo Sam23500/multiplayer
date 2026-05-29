@@ -59,7 +59,7 @@ func _on_server_disconnected() -> void:
 		if child is not MultiplayerSpawner:
 			child.queue_free()
 	
-	$MainMenuStuff.visible=true
+	$MainMenuStuff.visible = true
 	$Background.visible = true
 	$MainMenuStuff/PlayersJoined.text = "Lost Connection to Server"
 
