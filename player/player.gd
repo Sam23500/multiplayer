@@ -72,8 +72,8 @@ func _ready() -> void:
 	NetworkManager.player_disconnected.connect(_on_player_disconnected)
 	health_changed.connect(GameManager.on_health_changed)
 	if is_local_player:
-		remove_child(info_display)
-		
+		info_display.queue_free()
+
 
 func _physics_process(delta: float) -> void:
 	
