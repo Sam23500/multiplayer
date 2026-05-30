@@ -2,11 +2,15 @@ class_name Rock
 extends RigidBody3D
 
 var sync_pos : Vector3
+var last_sync_pos : Vector3
 var used := false
+
+var last_vel := Vector3.ZERO
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	visible = true
+	if !is_multiplayer_authority():
+		visible = false
 
 @rpc("authority", "call_local")
 func setup():
@@ -22,6 +26,8 @@ func setup():
 func _physics_process(delta: float) -> void:
 	if !is_multiplayer_authority():
 		global_position = sync_pos
+		if visible == false and last_sync_pos != sync_pos:
+			visible = true
 		return
 	if position.y < -1:
 		queue_free()
@@ -29,6 +35,9 @@ func _physics_process(delta: float) -> void:
 		if position.y > 0.7:
 			set_collision_mask_value(1,true)
 	sync_pos = global_position
+	last_sync_pos = sync_pos
+	last_vel = linear_velocity
+
 
 @rpc("authority", "call_local")
 func hit(from: Vector3):
@@ -59,9 +68,12 @@ func explode(collider_path: NodePath, damage: int):
 	if !target:
 		return
 	if target is Player and multiplayer.is_server():
-		#var knock = knockback_calc(position, linear_velocity, target)
-		target.knockback.rpc(linear_velocity)
+		var knockback = knockback_calc((target.global_position - last_sync_pos).normalized())
+		target.knockback.rpc(knockback)
 		target.get_hit.rpc(damage)
 		
-func knockback_calc(rock_pos: Vector3, rock_vel: Vector3, target:Node):
-	return ((target.global_position - rock_pos).normalized()) * rock_vel.length()
+func knockback_calc(vector: Vector3):
+	var weighted = vector.normalized() * 25 + last_vel * 3
+	print("weighted value ", weighted)
+	var final := Vector3(weighted.x,0,weighted.z)
+	return final
