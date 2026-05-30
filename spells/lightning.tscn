@@ -1,6 +1,6 @@
-[gd_scene format=4 uid="uid://tyevfjguxxxx"]
+[gd_scene format=4 uid="uid://0g85wah2h4k0"]
 
-[ext_resource type="Script" uid="uid://d0o1vhqvmc5k" path="res://rock.gd" id="1_o0qsl"]
+[ext_resource type="Script" uid="uid://d0o1vhqvmc5k" path="res://spells/rock.gd" id="1_cep6t"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_b4wt3"]
 
@@ -37,7 +37,7 @@ collision_mask = 14
 gravity_scale = 2.0
 contact_monitor = true
 max_contacts_reported = 1
-script = ExtResource("1_o0qsl")
+script = ExtResource("1_cep6t")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=254323281]
 mesh = SubResource("SphereMesh_b4wt3")

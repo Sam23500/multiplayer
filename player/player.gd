@@ -9,11 +9,14 @@ var is_local_player := false
 
 var focus_object : CollisionObject3D = null
 
+var spell_scenes : Dictionary[String, PackedScene] = {
+	"Rock" = preload("res://spells/rock.tscn"),
+	"Lightning" = preload("res://spells/lightning.tscn")
+}
 var projectile_container : Node
 var projectile_spawner : MultiplayerSpawner
-var projectiles : Dictionary[String, PackedScene] = {
-	"rock": preload("res://rock.tscn")
-}
+
+var spell_book := SpellBook.new()
 
 const JUMP_VELOCITY := 4.5
 
@@ -51,11 +54,12 @@ func _enter_tree():
 	set_multiplayer_authority(int(str(name)))
 	if is_multiplayer_authority():
 		is_local_player = true
-		var cam := preload("res://player_cam.tscn").instantiate()
+		var cam := preload("res://player/player_cam.tscn").instantiate()
 		cam.position.y += 0.5
 		add_child(cam)
 
 func _ready() -> void:
+	spell_book.append_spell("Rock", preload("res://spells/rock.tscn"), 0.5)
 	syncPos = global_position
 	id = int(name)
 	username = NetworkManager.players[id]["username"]
@@ -125,10 +129,10 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	
 	if Input.is_action_just_pressed("spell_left"):
-		if Input.is_action_pressed("move_back"):
-			spawn_projectile.rpc_id(1, "rock", global_position, global_rotation, 0, 0)
-		else:
-			spawn_projectile.rpc_id(1, "rock", global_position, global_rotation, velocity.x, velocity.z)
+		#if Input.is_action_pressed("move_back"):
+			#cast_spell.rpc_id(1, spell_book.get_active_spell_name(), global_position, global_rotation, 0, 0)
+		#else:
+		cast_spell.rpc_id(1, spell_book.get_active_spell_name(), global_position, global_rotation, velocity.x, velocity.z)
 	if Input.is_action_just_pressed("spell_right") and focus_object:
 		if focus_object is Rock:
 			var rock : Rock = focus_object
@@ -149,18 +153,17 @@ func _on_player_disconnected(pid) -> void:
 	pass
 
 @rpc("authority", "call_local")
-func spawn_projectile(projectile_name: String, pos: Vector3, dir: Vector3, x_speed: float, z_speed: float):
+func cast_spell(spell_name: String, pos: Vector3, dir: Vector3, x_speed: float, z_speed: float):
 	if !multiplayer.is_server():
 		return
-	if !projectiles.has(projectile_name): return
-	projectile_spawner.spawn([projectile_name, pos, dir, x_speed, z_speed])
+	projectile_spawner.spawn([spell_name, pos, dir, x_speed, z_speed])
 
 func setup_projectile(data):
-	var projectile := projectiles[data[0]].instantiate()
+	var projectile : Node = spell_scenes[data[0]].instantiate()
 	projectile.position = data[1]
 	projectile.rotation = data[2]
-	projectile.position.x += data[3] * 0.2
-	projectile.position.z += data[4] * 0.2
+	projectile.linear_velocity.x += data[3]
+	projectile.linear_velocity.z += data[4]
 	projectile.setup()
 	return projectile
 
@@ -172,5 +175,4 @@ func get_hit(damage: int):
 @rpc("any_peer", "call_local")
 func knockback(vector: Vector3):
 	if is_multiplayer_authority():
-		print("sdhfgshkdfbs")
 		velocity += vector

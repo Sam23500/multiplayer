@@ -1,11 +1,11 @@
 [gd_scene format=3 uid="uid://dckmy2r1vu3re"]
 
-[ext_resource type="Script" uid="uid://d0wk4rk6f43ec" path="res://game.gd" id="1_vonw3"]
-[ext_resource type="PackedScene" uid="uid://bbb6uhyhkrkuo" path="res://player.tscn" id="2_oi3di"]
+[ext_resource type="Script" uid="uid://d0wk4rk6f43ec" path="res://core/game.gd" id="1_vonw3"]
+[ext_resource type="PackedScene" uid="uid://bbb6uhyhkrkuo" path="res://player/player.tscn" id="2_oi3di"]
 [ext_resource type="Texture2D" uid="uid://t3ffy3vgfqy" path="res://assets/grass1.png" id="3_fc0e3"]
 [ext_resource type="Texture2D" uid="uid://bw8asitnaghrf" path="res://assets/crosshair.png" id="4_fc0e3"]
 [ext_resource type="Texture2D" uid="uid://dx8kenheewh8i" path="res://assets/Mossy_bricks.jpg" id="5_7jktm"]
-[ext_resource type="Script" path="res://health_bar.gd" id="5_ryrav"]
+[ext_resource type="Script" uid="uid://2tfvdojmdccb" path="res://health_bar.gd" id="5_ryrav"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_vonw3"]
 
@@ -81,7 +81,6 @@ mesh = SubResource("PlaneMesh_oi3di")
 [node name="Projectiles" type="Node" parent="." unique_id=1221495549]
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="Projectiles" unique_id=2010924113]
-_spawnable_scenes = PackedStringArray("uid://tyevfjguxxxx")
 spawn_path = NodePath("..")
 
 [node name="GUI" type="Control" parent="." unique_id=1900562382]

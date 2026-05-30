@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bbb6uhyhkrkuo"]
 
-[ext_resource type="Script" uid="uid://cp6o0egq4smi0" path="res://player.gd" id="1_onrkg"]
+[ext_resource type="Script" uid="uid://cp6o0egq4smi0" path="res://player/player.gd" id="1_onrkg"]
 [ext_resource type="Theme" uid="uid://33p8pjnjvodd" path="res://assets/theme.tres" id="2_onrkg"]
 [ext_resource type="Script" uid="uid://cub1m0l3hrl8t" path="res://name_tag.gd" id="3_i3pqv"]
 

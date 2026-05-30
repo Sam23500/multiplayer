@@ -17,7 +17,7 @@ func setup():
 	var forward_dir = -transform.basis.z
 	forward_dir.y = 0
 	forward_dir = forward_dir.normalized()
-	position += (forward_dir*1.5)
+	position += (forward_dir*2)
 	position.y = 0
 	linear_velocity.y = 10
 	add_to_group("interactables")
@@ -57,6 +57,7 @@ func deactivate():
 	$MeshInstance3D/Outline.visible = false
 
 func _on_body_entered(body: Node) -> void:
+	if !is_multiplayer_authority(): return
 	var damage = 2 * linear_velocity.length()
 	var collider_path: NodePath = body.get_path()
 	explode.rpc_id(1, collider_path, damage)
@@ -73,7 +74,6 @@ func explode(collider_path: NodePath, damage: int):
 		target.get_hit.rpc(damage)
 		
 func knockback_calc(vector: Vector3):
-	var weighted = vector.normalized() * 25 + last_vel * 3
-	print("weighted value ", weighted)
-	var final := Vector3(weighted.x,0,weighted.z)
+	var weighted = vector.normalized() * 30 + last_vel
+	var final := Vector3(weighted.x,1,weighted.z)
 	return final
