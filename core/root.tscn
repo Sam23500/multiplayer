@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://f423j2srnckj" path="res://assets/Bg.png" id="3_28aoi"]
 [ext_resource type="FontFile" uid="uid://dc66l6bjq7ngq" path="res://assets/fonts/Rubita Smile.ttf" id="5_jnlp7"]
 [ext_resource type="AudioStream" uid="uid://dpypd0pvf7na4" path="res://assets/hall-of-the-mountain-king.mp3" id="6_oii04"]
+[ext_resource type="Script" uid="uid://bpjofhuw5qt1j" path="res://core/mute.gd" id="7_v10a3"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jix8l"]
 texture = ExtResource("3_28aoi")
@@ -136,9 +137,19 @@ stream = ExtResource("6_oii04")
 autoplay = true
 parameters/looping = true
 
+[node name="Mute" type="Button" parent="MainMenuStuff" unique_id=1806814717]
+layout_mode = 0
+offset_left = 1745.0
+offset_top = 25.0
+offset_right = 1881.0
+offset_bottom = 110.0
+text = "Shut Up"
+script = ExtResource("7_v10a3")
+
 [node name="ConnectionTimer" type="Timer" parent="." unique_id=928722184]
 wait_time = 5.0
 one_shot = true
 
 [connection signal="text_changed" from="MainMenuStuff/Name" to="." method="_on_name_changed"]
+[connection signal="pressed" from="MainMenuStuff/Mute" to="MainMenuStuff/Mute" method="_on_pressed"]
 [connection signal="timeout" from="ConnectionTimer" to="." method="_on_connection_timer_timeout"]
