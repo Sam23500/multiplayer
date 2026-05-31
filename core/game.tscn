@@ -42,6 +42,28 @@ uv1_scale = Vector3(100, 15, 5)
 material = SubResource("StandardMaterial3D_ryrav")
 size = Vector3(0.5, 5, 100)
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_cjuek"]
+radius = 2.0
+
+[sub_resource type="Gradient" id="Gradient_vhpdd"]
+offsets = PackedFloat32Array(0.9927536, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_gjr3k"]
+gradient = SubResource("Gradient_vhpdd")
+fill_to = Vector2(1, 1)
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_4cdhi"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fgh25"]
+normal_enabled = true
+normal_texture = SubResource("PlaceholderTexture2D_4cdhi")
+clearcoat_roughness = 1.0
+clearcoat_texture = SubResource("GradientTexture2D_gjr3k")
+
+[sub_resource type="SphereMesh" id="SphereMesh_bpu47"]
+material = SubResource("StandardMaterial3D_fgh25")
+radius = 2.0
+
 [node name="Game" type="Node" unique_id=649200124]
 script = ExtResource("1_vonw3")
 player_scene = ExtResource("2_oi3di")
@@ -202,3 +224,12 @@ shape = SubResource("BoxShape3D_7jktm")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="MapObjects/Walls/Wall4" unique_id=826053630]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("BoxMesh_eow3j")
+
+[node name="Goblin Hole" type="StaticBody3D" parent="MapObjects" unique_id=1967850384]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MapObjects/Goblin Hole" unique_id=368451919]
+transform = Transform3D(1, 0, 0, 0, 0.3, 0, 0, 0, 1, 0, 0.009327054, 0)
+shape = SubResource("SphereShape3D_cjuek")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MapObjects/Goblin Hole" unique_id=1376806447]
+mesh = SubResource("SphereMesh_bpu47")
