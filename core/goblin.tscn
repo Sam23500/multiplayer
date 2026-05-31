@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://qxh5h4gqb166"]
+
+[ext_resource type="Script" uid="uid://b0t7xqhns5yyf" path="res://core/goblin.gd" id="1_xapo3"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_xapo3"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_gxajx"]
+
+[node name="Goblin" type="RigidBody3D" unique_id=1451419126]
+script = ExtResource("1_xapo3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=260042693]
+shape = SubResource("SphereShape3D_xapo3")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=2039771125]
+mesh = SubResource("SphereMesh_gxajx")
