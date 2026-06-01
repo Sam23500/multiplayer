@@ -9,6 +9,8 @@ var is_local_player := false
 
 var focus_object : CollisionObject3D = null
 
+var spell_functions_l : Dictionary[String, Callable]
+var spell_functions_r : Dictionary[String, Callable]
 var spell_scenes : Dictionary[String, PackedScene] = {
 	"Rock" = preload("res://spells/rock.tscn"),
 	"Lightning" = preload("res://spells/lightning.tscn")
@@ -59,7 +61,8 @@ func _enter_tree():
 		add_child(cam)
 
 func _ready() -> void:
-	spell_book.append_spell("Rock", preload("res://spells/rock.tscn"), 0.5)
+	spell_book.append_spell("Rock", 0.5, 0.0)
+	spell_book.append_spell("Lightning", 0.5, 0.0)
 	syncPos = global_position
 	id = int(name)
 	username = NetworkManager.players[id]["username"]
@@ -129,6 +132,8 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	
 	if Input.is_action_just_pressed("spell_left"):
+		if !spell_book.is_spell_l_active(): return
+		start_cooldown_l()
 		#if Input.is_action_pressed("move_back"):
 			#cast_spell.rpc_id(1, spell_book.get_active_spell_name(), global_position, global_rotation, 0, 0)
 		#else:
@@ -137,6 +142,25 @@ func _physics_process(delta: float) -> void:
 		if focus_object is Rock:
 			var rock : Rock = focus_object
 			request_rock_hit.rpc_id(1, rock.get_path(), global_position) 
+			spell_book.end_cooldown_l()
+	check_spell_select()
+
+func check_spell_select():
+	if Input.is_action_just_pressed("spell_select_left"):
+		spell_book.decrement_active()
+	if Input.is_action_just_pressed("spell_select_right"):
+		spell_book.increment_active()
+	if Input.is_action_just_pressed("spell_select_0"):
+		spell_book.set_active(0)
+	if Input.is_action_just_pressed("spell_select_1"):
+		spell_book.set_active(1)
+	if Input.is_action_just_pressed("spell_select_2"):
+		spell_book.set_active(2)
+
+func start_cooldown_l():
+	get_tree().create_timer(spell_book.start_cooldown_l()).timeout.connect(spell_book.end_cooldown_l)
+func start_cooldown_r():
+	get_tree().create_timer(spell_book.start_cooldown_r()).timeout.connect(spell_book.end_cooldown_r)
 
 @rpc("any_peer", "call_local")
 func request_rock_hit(rock_path: NodePath, hit_from: Vector3):

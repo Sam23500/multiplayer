@@ -29,8 +29,6 @@ func _physics_process(delta: float) -> void:
 		if visible == false and last_sync_pos != sync_pos:
 			visible = true
 		return
-	if position.y < -1:
-		queue_free()
 	if !get_collision_mask_value(1):
 		if position.y > 0.7:
 			set_collision_mask_value(1,true)

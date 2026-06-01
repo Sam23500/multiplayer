@@ -54,7 +54,7 @@ func _on_connection_timer_timeout() -> void:
 
 func _on_server_disconnected() -> void:
 	# Back to main menu
-	var levels_children = $Levels.get_children()
+	var levels_children = $Game.get_children()
 	for child in levels_children:
 		if child is not MultiplayerSpawner:
 			child.queue_free()

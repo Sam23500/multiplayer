@@ -7,7 +7,6 @@
 [ext_resource type="Texture2D" uid="uid://dx8kenheewh8i" path="res://assets/Mossy_bricks.jpg" id="5_7jktm"]
 [ext_resource type="Script" uid="uid://2tfvdojmdccb" path="res://health_bar.gd" id="5_ryrav"]
 [ext_resource type="Script" uid="uid://6grs3vx1s6od" path="res://core/goblin_hole.gd" id="7_gjr3k"]
-[ext_resource type="PackedScene" uid="uid://qxh5h4gqb166" path="res://core/goblin.tscn" id="8_4cdhi"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_vonw3"]
 
@@ -44,9 +43,8 @@ uv1_scale = Vector3(100, 15, 5)
 material = SubResource("StandardMaterial3D_ryrav")
 size = Vector3(0.5, 5, 100)
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_cjuek"]
-radius = 2.0
-height = 4.0
+[sub_resource type="SphereShape3D" id="SphereShape3D_gjr3k"]
+radius = 4.88
 
 [sub_resource type="Gradient" id="Gradient_vhpdd"]
 offsets = PackedFloat32Array(0.9927536, 1)
@@ -232,12 +230,13 @@ mesh = SubResource("BoxMesh_eow3j")
 script = ExtResource("7_gjr3k")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MapObjects/Goblin Hole" unique_id=368451919]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02408278, 0)
-shape = SubResource("CapsuleShape3D_cjuek")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.27642, 0)
+shape = SubResource("SphereShape3D_gjr3k")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="MapObjects/Goblin Hole" unique_id=1376806447]
 mesh = SubResource("SphereMesh_bpu47")
 
 [node name="Spawnables" type="Node" parent="." unique_id=95697791]
 
-[node name="Goblin" parent="Spawnables" unique_id=1451419126 instance=ExtResource("8_4cdhi")]
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="Spawnables" unique_id=182697175]
+spawn_path = NodePath("..")
