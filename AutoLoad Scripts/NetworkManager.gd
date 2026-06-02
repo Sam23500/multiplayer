@@ -25,9 +25,9 @@ func _ready():
 	multiplayer.connection_failed.connect(_on_connected_fail)
 	multiplayer.server_disconnected.connect(_on_server_disconnected)
 	
-	if OS.has_feature("dedicated_server"):
-		connection_type = "dedicated"
-		create_game()
+	#if OS.has_feature("dedicated_server"):
+		#connection_type = "dedicated"
+		#create_game()
 
 
 func join_game(address = ""):

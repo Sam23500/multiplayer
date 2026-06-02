@@ -9,8 +9,9 @@ var last_vel := Vector3.ZERO
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	if !is_multiplayer_authority():
+	if !multiplayer.is_server():
 		visible = false
+		freeze = true
 
 @rpc("authority", "call_local")
 func setup():
@@ -24,13 +25,16 @@ func setup():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
-	if !is_multiplayer_authority():
-		global_position = sync_pos
+	if !multiplayer.is_server():
+		if last_sync_pos == Vector3.ZERO:
+			global_position = sync_pos
+		global_position = lerp(global_position, sync_pos, 0.5)
 		if visible == false and last_sync_pos != sync_pos:
 			visible = true
+		last_sync_pos = sync_pos
 		return
 	if !get_collision_mask_value(1):
-		if position.y > 0.7:
+		if linear_velocity.y < 0:
 			set_collision_mask_value(1,true)
 	sync_pos = global_position
 	last_sync_pos = sync_pos

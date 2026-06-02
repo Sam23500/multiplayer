@@ -153,8 +153,8 @@ func check_spell_select():
 		spell_book.set_active(2)
 
 func check_spell_cast():
-	if spell_book.get_active_spell_name() == "Empty": return
 	if !spell_scenes.has(spell_book.get_active_spell_name()): return
+	if spell_book.get_active_spell_name() == "Empty": return
 	if Input.is_action_just_pressed("spell_left"):
 		if !spell_book.is_spell_l_available(): return
 		start_cooldown_l()
