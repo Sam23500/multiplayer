@@ -5,32 +5,33 @@ const MAX_SPELLS := 3
 var _active_index := 0
 var _spells : Array[Spell]
 
-func get_active_spell_name() -> String:
-	if _spells.size() - 1 < _active_index:
-		var blank_spell = Spell.new()
-		blank_spell.name = "Empty"
+func _init():
+	var blank_spell = Spell.new()
+	blank_spell.name = "Empty"
+	for i in range(MAX_SPELLS):
 		_spells.append(blank_spell)
+
+func get_active_spell_name() -> String:
 	return _spells[_active_index].name
 
-func is_spell_l_active():
-	return _spells[_active_index].available_l
+func is_spell_l_available(index = _active_index):
+	return _spells[index].available_l
+func is_spell_r_available(index = _active_index):
+	return _spells[index].available_r
 
-func is_spell_r_active():
-	return _spells[_active_index].available_r
+func start_cooldown_l(index = _active_index):
+	if _spells[index].cooldown_l == 0: return 0
+	_spells[index].available_l = false
+	return _spells[index].cooldown_l
+func start_cooldown_r(index = _active_index):
+	if _spells[index].cooldown_r == 0: return 0
+	_spells[index].available_r = false
+	return _spells[index].cooldown_r
 
-func start_cooldown_l():
-	if _spells[_active_index].cooldown_l == 0: return 0
-	_spells[_active_index].available_l = false
-	return _spells[_active_index].cooldown_l
-func start_cooldown_r():
-	if _spells[_active_index].cooldown_r == 0: return 0
-	_spells[_active_index].available_r = false
-	return _spells[_active_index].cooldown_r
-
-func end_cooldown_l():
-	_spells[_active_index].available_l = true
-func end_cooldown_r():
-	_spells[_active_index].available_r = true
+func end_cooldown_l(index = _active_index):
+	_spells[index].available_l = true
+func end_cooldown_r(index = _active_index):
+	_spells[index].available_r = true
 
 func set_active(index: int):
 	if index >= MAX_SPELLS: return
@@ -45,8 +46,11 @@ func decrement_active():
 	if _active_index == -1: _active_index = 2
 
 func append_spell(spell_name: String, cooldown_l: float, cooldown_r: float):
+	var first_empty = _spells.find_custom(func (spell: Spell): return spell.name == "Empty")
+	if first_empty == -1: return
+	_spells.remove_at(first_empty)
 	var new_spell = Spell.new()
 	new_spell.name = spell_name
 	new_spell.cooldown_l = cooldown_l
 	new_spell.cooldown_r = cooldown_r
-	_spells.append(new_spell)
+	_spells.insert(first_empty, new_spell)

@@ -13,14 +13,13 @@ var spell_functions_l : Dictionary[String, Callable]
 var spell_functions_r : Dictionary[String, Callable]
 var spell_scenes : Dictionary[String, PackedScene] = {
 	"Rock" = preload("res://spells/rock.tscn"),
-	"Lightning" = preload("res://spells/lightning.tscn")
+	"Lightning" = preload("res://spells/lightning.tscn"),
 }
 var projectile_container : Node
 var projectile_spawner : MultiplayerSpawner
 
 var spell_book := SpellBook.new()
 
-const JUMP_VELOCITY := 4.5
 
 var max_health := 100
 var health := 100:
@@ -32,6 +31,7 @@ var health := 100:
 
 var gravity := 9.8 
 
+const JUMP_VELOCITY := 4.5
 var max_speed := 5.0
 var default_speed := 5.0
 var sprint_multiplier := 1.8
@@ -86,6 +86,17 @@ func _physics_process(delta: float) -> void:
 		healthbar.value = health
 		return
 	
+	do_sprint_stuff(delta)
+	do_jump_stuff(delta)
+	do_move_stuff()
+	
+	syncPos = position
+	move_and_slide()
+	
+	check_spell_select()
+	check_spell_cast()
+
+func do_sprint_stuff(delta: float):
 	if Input.is_action_just_pressed("sprint_toggle"):
 		if sprint_on or !exhausted:
 			sprint_on = !sprint_on
@@ -110,13 +121,15 @@ func _physics_process(delta: float) -> void:
 			exhausted = false
 		if stamina > max_stamina:
 			stamina = max_stamina
-	
+
+func do_jump_stuff(delta: float):
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 	
 	if Input.is_action_just_pressed("jump") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
-	
+
+func do_move_stuff():
 	var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
 	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y))
 	
@@ -126,24 +139,6 @@ func _physics_process(delta: float) -> void:
 	else:
 		velocity.x = move_toward(velocity.x, 0, max_speed)
 		velocity.z = move_toward(velocity.z, 0, max_speed)
-	
-	
-	syncPos = position
-	move_and_slide()
-	
-	if Input.is_action_just_pressed("spell_left"):
-		if !spell_book.is_spell_l_active(): return
-		start_cooldown_l()
-		#if Input.is_action_pressed("move_back"):
-			#cast_spell.rpc_id(1, spell_book.get_active_spell_name(), global_position, global_rotation, 0, 0)
-		#else:
-		cast_spell.rpc_id(1, spell_book.get_active_spell_name(), global_position, global_rotation, velocity.x, velocity.z)
-	if Input.is_action_just_pressed("spell_right") and focus_object:
-		if focus_object is Rock:
-			var rock : Rock = focus_object
-			request_rock_hit.rpc_id(1, rock.get_path(), global_position) 
-			spell_book.end_cooldown_l()
-	check_spell_select()
 
 func check_spell_select():
 	if Input.is_action_just_pressed("spell_select_left"):
@@ -157,10 +152,26 @@ func check_spell_select():
 	if Input.is_action_just_pressed("spell_select_2"):
 		spell_book.set_active(2)
 
+func check_spell_cast():
+	if spell_book.get_active_spell_name() == "Empty": return
+	if !spell_scenes.has(spell_book.get_active_spell_name()): return
+	if Input.is_action_just_pressed("spell_left"):
+		if !spell_book.is_spell_l_available(): return
+		start_cooldown_l()
+		#if Input.is_action_pressed("move_back"):
+			#cast_spell.rpc_id(1, spell_book.get_active_spell_name(), global_position, global_rotation, 0, 0)
+		#else:
+		cast_spell.rpc_id(1, spell_book.get_active_spell_name(), global_position, global_rotation, velocity.x, velocity.z)
+	if Input.is_action_just_pressed("spell_right") and focus_object:
+		if focus_object is Rock:
+			var rock : Rock = focus_object
+			request_rock_hit.rpc_id(1, rock.get_path(), global_position) 
+			spell_book.end_cooldown_l()
+
 func start_cooldown_l():
-	get_tree().create_timer(spell_book.start_cooldown_l()).timeout.connect(spell_book.end_cooldown_l)
+	get_tree().create_timer(spell_book.start_cooldown_l()).timeout.connect(spell_book.end_cooldown_l.bind(spell_book._active_index))
 func start_cooldown_r():
-	get_tree().create_timer(spell_book.start_cooldown_r()).timeout.connect(spell_book.end_cooldown_r)
+	get_tree().create_timer(spell_book.start_cooldown_r()).timeout.connect(spell_book.end_cooldown_r.bind(spell_book._active_index))
 
 @rpc("any_peer", "call_local")
 func request_rock_hit(rock_path: NodePath, hit_from: Vector3):
