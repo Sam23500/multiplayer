@@ -85,6 +85,10 @@ func _physics_process(delta: float) -> void:
 		position = lerp(position, syncPos, 0.5)
 		healthbar.value = health
 		return
+		
+	if health < 1:
+		health = max_health
+		position = Vector3(0,100,0)
 	
 	do_sprint_stuff(delta)
 	do_jump_stuff(delta)
