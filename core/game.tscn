@@ -7,6 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://dx8kenheewh8i" path="res://assets/Mossy_bricks.jpg" id="5_7jktm"]
 [ext_resource type="Script" uid="uid://2tfvdojmdccb" path="res://health_bar.gd" id="5_ryrav"]
 [ext_resource type="Script" uid="uid://6grs3vx1s6od" path="res://core/goblin_hole.gd" id="7_gjr3k"]
+[ext_resource type="PackedScene" uid="uid://jw6fa8cd17rg" path="res://assets/Terrain/Tree1.tscn" id="8_gjr3k"]
+[ext_resource type="PackedScene" uid="uid://ctaicnhmkk2wl" path="res://assets/Terrain/Bush1.tscn" id="9_4cdhi"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_vonw3"]
 
@@ -64,6 +66,9 @@ clearcoat_texture = SubResource("GradientTexture2D_gjr3k")
 [sub_resource type="SphereMesh" id="SphereMesh_bpu47"]
 material = SubResource("StandardMaterial3D_fgh25")
 radius = 2.0
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_4cdhi"]
+height = 11.263428
 
 [node name="Game" type="Node" unique_id=649200124]
 script = ExtResource("1_vonw3")
@@ -235,6 +240,148 @@ shape = SubResource("SphereShape3D_gjr3k")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="MapObjects/Goblin Hole" unique_id=1376806447]
 mesh = SubResource("SphereMesh_bpu47")
+
+[node name="TreePatch" type="Node" parent="MapObjects" unique_id=501780464]
+
+[node name="Tree" parent="MapObjects/TreePatch" unique_id=1078811831 instance=ExtResource("8_gjr3k")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.596992, 0, 17.420582)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="MapObjects/TreePatch/Tree" unique_id=1921226304]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MapObjects/TreePatch/Tree/RigidBody3D" unique_id=1590073254]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.631714, 0)
+shape = SubResource("CapsuleShape3D_4cdhi")
+
+[node name="Bush" parent="MapObjects/TreePatch" unique_id=1966027707 instance=ExtResource("9_4cdhi")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 24.39794, 1.6379411e-06, 25.8776)
+
+[node name="Bush2" parent="MapObjects/TreePatch" unique_id=755997958 instance=ExtResource("9_4cdhi")]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 15.00997, 2.1293235e-06, 30.026981)
+
+[node name="Bush3" parent="MapObjects/TreePatch" unique_id=363601817 instance=ExtResource("9_4cdhi")]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 7.1778073, 2.1293235e-06, 20.403353)
+
+[node name="Bush4" parent="MapObjects/TreePatch" unique_id=503257551 instance=ExtResource("9_4cdhi")]
+transform = Transform3D(0.16000001, 0, 0, 0, 0.16000001, 0, 0, 0, 0.16000001, 14.699425, 2.981053e-06, 23.47285)
+
+[node name="Tree2" parent="MapObjects/TreePatch" unique_id=171187115 instance=ExtResource("8_gjr3k")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.018742, -4.7683716e-07, 27.237438)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="MapObjects/TreePatch/Tree2" unique_id=1497785150]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MapObjects/TreePatch/Tree2/RigidBody3D" unique_id=241922554]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.631714, 0)
+shape = SubResource("CapsuleShape3D_4cdhi")
+
+[node name="Tree3" parent="MapObjects/TreePatch" unique_id=2043224432 instance=ExtResource("8_gjr3k")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.512669, -4.7683716e-07, 17.297516)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="MapObjects/TreePatch/Tree3" unique_id=655155977]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MapObjects/TreePatch/Tree3/RigidBody3D" unique_id=970522853]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.631714, 0)
+shape = SubResource("CapsuleShape3D_4cdhi")
+
+[node name="Tree4" parent="MapObjects/TreePatch" unique_id=574729482 instance=ExtResource("8_gjr3k")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.588524, 0, 25.30479)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="MapObjects/TreePatch/Tree4" unique_id=2015923374]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MapObjects/TreePatch/Tree4/RigidBody3D" unique_id=149733105]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.631714, 0)
+shape = SubResource("CapsuleShape3D_4cdhi")
+
+[node name="Tree5" parent="MapObjects/TreePatch" unique_id=1496162602 instance=ExtResource("8_gjr3k")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.333534, 0, 32.06616)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="MapObjects/TreePatch/Tree5" unique_id=1243043944]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MapObjects/TreePatch/Tree5/RigidBody3D" unique_id=1323190758]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.631714, 0)
+shape = SubResource("CapsuleShape3D_4cdhi")
+
+[node name="Bush5" parent="MapObjects/TreePatch" unique_id=1460863748 instance=ExtResource("9_4cdhi")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 20.445078, 1.6379411e-06, 18.895216)
+
+[node name="Bush6" parent="MapObjects/TreePatch" unique_id=1301288105 instance=ExtResource("9_4cdhi")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 25.223421, 1.6379411e-06, 19.829306)
+
+[node name="Bush7" parent="MapObjects/TreePatch" unique_id=74465218 instance=ExtResource("9_4cdhi")]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 22.697021, 2.6061607e-06, 32.354362)
+
+[node name="Bush8" parent="MapObjects/TreePatch" unique_id=758174044 instance=ExtResource("9_4cdhi")]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 9.593533, 4.036672e-06, 32.68022)
+
+[node name="TreePatch2" type="Node" parent="MapObjects" unique_id=218521127]
+
+[node name="Tree" parent="MapObjects/TreePatch2" unique_id=2075674893 instance=ExtResource("8_gjr3k")]
+transform = Transform3D(0.4228555, 0, 0.90619713, 0, 1, 0, -0.90619713, 0, 0.4228555, 12.631338, 0, -23.55662)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="MapObjects/TreePatch2/Tree" unique_id=1275978511]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MapObjects/TreePatch2/Tree/RigidBody3D" unique_id=690338373]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.631714, 0)
+shape = SubResource("CapsuleShape3D_4cdhi")
+
+[node name="Bush" parent="MapObjects/TreePatch2" unique_id=1381304139 instance=ExtResource("9_4cdhi")]
+transform = Transform3D(0.12685664, 0, 0.27185914, 0, 0.29999998, 0, -0.27185914, 0, 0.12685664, 24.43945, 1.6379411e-06, -28.862116)
+
+[node name="Bush2" parent="MapObjects/TreePatch2" unique_id=1291478661 instance=ExtResource("9_4cdhi")]
+transform = Transform3D(0.1691422, 0, 0.36247885, 0, 0.4, 0, -0.36247885, 0, 0.1691422, 24.229853, 2.1293235e-06, -18.600174)
+
+[node name="Bush3" parent="MapObjects/TreePatch2" unique_id=303505704 instance=ExtResource("9_4cdhi")]
+transform = Transform3D(0.1691422, 0, 0.36247885, 0, 0.4, 0, -0.36247885, 0, 0.1691422, 12.197075, 2.1293235e-06, -15.572096)
+
+[node name="Bush4" parent="MapObjects/TreePatch2" unique_id=2092516696 instance=ExtResource("9_4cdhi")]
+transform = Transform3D(0.06765688, 0, 0.14499155, 0, 0.16, 0, -0.14499155, 0, 0.06765688, 18.159203, 2.981053e-06, -21.09021)
+
+[node name="Tree2" parent="MapObjects/TreePatch2" unique_id=797522663 instance=ExtResource("8_gjr3k")]
+transform = Transform3D(0.4228555, 0, 0.90619713, 0, 1, 0, -0.90619713, 0, 0.4228555, 18.745697, -4.7683716e-07, -13.444318)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="MapObjects/TreePatch2/Tree2" unique_id=1658761616]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MapObjects/TreePatch2/Tree2/RigidBody3D" unique_id=1724313354]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.631714, 0)
+shape = SubResource("CapsuleShape3D_4cdhi")
+
+[node name="Tree3" parent="MapObjects/TreePatch2" unique_id=1573334443 instance=ExtResource("8_gjr3k")]
+transform = Transform3D(0.4228555, 0, 0.90619713, 0, 1, 0, -0.90619713, 0, 0.4228555, 17.13557, -4.7683716e-07, -33.500416)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="MapObjects/TreePatch2/Tree3" unique_id=1724846290]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MapObjects/TreePatch2/Tree3/RigidBody3D" unique_id=788122564]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.631714, 0)
+shape = SubResource("CapsuleShape3D_4cdhi")
+
+[node name="Tree4" parent="MapObjects/TreePatch2" unique_id=563855511 instance=ExtResource("8_gjr3k")]
+transform = Transform3D(0.4228555, 0, 0.90619713, 0, 1, 0, -0.90619713, 0, 0.4228555, 21.040972, 0, -22.933659)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="MapObjects/TreePatch2/Tree4" unique_id=1380572590]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MapObjects/TreePatch2/Tree4/RigidBody3D" unique_id=1134347984]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.631714, 0)
+shape = SubResource("CapsuleShape3D_4cdhi")
+
+[node name="Tree5" parent="MapObjects/TreePatch2" unique_id=1437129408 instance=ExtResource("8_gjr3k")]
+transform = Transform3D(0.4228555, 0, 0.90619713, 0, 1, 0, -0.90619713, 0, 0.4228555, 28.751701, 0, -23.468294)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="MapObjects/TreePatch2/Tree5" unique_id=1602259375]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MapObjects/TreePatch2/Tree5/RigidBody3D" unique_id=527198269]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.631714, 0)
+shape = SubResource("CapsuleShape3D_4cdhi")
+
+[node name="Bush5" parent="MapObjects/TreePatch2" unique_id=1066332740 instance=ExtResource("9_4cdhi")]
+transform = Transform3D(0.12685664, 0, 0.27185914, 0, 0.29999998, 0, -0.27185914, 0, 0.12685664, 16.440544, 1.6379411e-06, -28.232582)
+
+[node name="Bush6" parent="MapObjects/TreePatch2" unique_id=955101078 instance=ExtResource("9_4cdhi")]
+transform = Transform3D(0.12685664, 0, 0.27185914, 0, 0.29999998, 0, -0.27185914, 0, 0.12685664, 19.307562, 1.6379411e-06, -32.167717)
+
+[node name="Bush7" parent="MapObjects/TreePatch2" unique_id=562532518 instance=ExtResource("9_4cdhi")]
+transform = Transform3D(0.1691422, 0, 0.36247885, 0, 0.4, 0, -0.36247885, 0, 0.1691422, 29.589432, 2.6061607e-06, -24.582014)
+
+[node name="Bush8" parent="MapObjects/TreePatch2" unique_id=1488862473 instance=ExtResource("9_4cdhi")]
+transform = Transform3D(0.1691422, 0, 0.36247885, 0, 0.4, 0, -0.36247885, 0, 0.1691422, 24.343842, 4.036672e-06, -12.569879)
 
 [node name="Spawnables" type="Node" parent="." unique_id=95697791]
 
