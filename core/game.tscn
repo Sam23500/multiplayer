@@ -67,9 +67,6 @@ clearcoat_texture = SubResource("GradientTexture2D_gjr3k")
 material = SubResource("StandardMaterial3D_fgh25")
 radius = 2.0
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_4cdhi"]
-height = 11.263428
-
 [node name="Game" type="Node" unique_id=649200124]
 script = ExtResource("1_vonw3")
 player_scene = ExtResource("2_oi3di")
@@ -232,6 +229,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("BoxMesh_eow3j")
 
 [node name="Goblin Hole" type="StaticBody3D" parent="MapObjects" unique_id=1967850384]
+collision_layer = 16
+collision_mask = 0
 script = ExtResource("7_gjr3k")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MapObjects/Goblin Hole" unique_id=368451919]
@@ -245,12 +244,6 @@ mesh = SubResource("SphereMesh_bpu47")
 
 [node name="Tree" parent="MapObjects/TreePatch" unique_id=1078811831 instance=ExtResource("8_gjr3k")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.596992, 0, 17.420582)
-
-[node name="RigidBody3D" type="RigidBody3D" parent="MapObjects/TreePatch/Tree" unique_id=1921226304]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MapObjects/TreePatch/Tree/RigidBody3D" unique_id=1590073254]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.631714, 0)
-shape = SubResource("CapsuleShape3D_4cdhi")
 
 [node name="Bush" parent="MapObjects/TreePatch" unique_id=1966027707 instance=ExtResource("9_4cdhi")]
 transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 24.39794, 1.6379411e-06, 25.8776)
@@ -267,38 +260,14 @@ transform = Transform3D(0.16000001, 0, 0, 0, 0.16000001, 0, 0, 0, 0.16000001, 14
 [node name="Tree2" parent="MapObjects/TreePatch" unique_id=171187115 instance=ExtResource("8_gjr3k")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.018742, -4.7683716e-07, 27.237438)
 
-[node name="RigidBody3D" type="RigidBody3D" parent="MapObjects/TreePatch/Tree2" unique_id=1497785150]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MapObjects/TreePatch/Tree2/RigidBody3D" unique_id=241922554]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.631714, 0)
-shape = SubResource("CapsuleShape3D_4cdhi")
-
 [node name="Tree3" parent="MapObjects/TreePatch" unique_id=2043224432 instance=ExtResource("8_gjr3k")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.512669, -4.7683716e-07, 17.297516)
-
-[node name="RigidBody3D" type="RigidBody3D" parent="MapObjects/TreePatch/Tree3" unique_id=655155977]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MapObjects/TreePatch/Tree3/RigidBody3D" unique_id=970522853]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.631714, 0)
-shape = SubResource("CapsuleShape3D_4cdhi")
 
 [node name="Tree4" parent="MapObjects/TreePatch" unique_id=574729482 instance=ExtResource("8_gjr3k")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.588524, 0, 25.30479)
 
-[node name="RigidBody3D" type="RigidBody3D" parent="MapObjects/TreePatch/Tree4" unique_id=2015923374]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MapObjects/TreePatch/Tree4/RigidBody3D" unique_id=149733105]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.631714, 0)
-shape = SubResource("CapsuleShape3D_4cdhi")
-
 [node name="Tree5" parent="MapObjects/TreePatch" unique_id=1496162602 instance=ExtResource("8_gjr3k")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.333534, 0, 32.06616)
-
-[node name="RigidBody3D" type="RigidBody3D" parent="MapObjects/TreePatch/Tree5" unique_id=1243043944]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MapObjects/TreePatch/Tree5/RigidBody3D" unique_id=1323190758]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.631714, 0)
-shape = SubResource("CapsuleShape3D_4cdhi")
 
 [node name="Bush5" parent="MapObjects/TreePatch" unique_id=1460863748 instance=ExtResource("9_4cdhi")]
 transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 20.445078, 1.6379411e-06, 18.895216)
@@ -317,12 +286,6 @@ transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 9.593533, 4.036672e-06,
 [node name="Tree" parent="MapObjects/TreePatch2" unique_id=2075674893 instance=ExtResource("8_gjr3k")]
 transform = Transform3D(0.4228555, 0, 0.90619713, 0, 1, 0, -0.90619713, 0, 0.4228555, 12.631338, 0, -23.55662)
 
-[node name="RigidBody3D" type="RigidBody3D" parent="MapObjects/TreePatch2/Tree" unique_id=1275978511]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MapObjects/TreePatch2/Tree/RigidBody3D" unique_id=690338373]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.631714, 0)
-shape = SubResource("CapsuleShape3D_4cdhi")
-
 [node name="Bush" parent="MapObjects/TreePatch2" unique_id=1381304139 instance=ExtResource("9_4cdhi")]
 transform = Transform3D(0.12685664, 0, 0.27185914, 0, 0.29999998, 0, -0.27185914, 0, 0.12685664, 24.43945, 1.6379411e-06, -28.862116)
 
@@ -338,38 +301,14 @@ transform = Transform3D(0.06765688, 0, 0.14499155, 0, 0.16, 0, -0.14499155, 0, 0
 [node name="Tree2" parent="MapObjects/TreePatch2" unique_id=797522663 instance=ExtResource("8_gjr3k")]
 transform = Transform3D(0.4228555, 0, 0.90619713, 0, 1, 0, -0.90619713, 0, 0.4228555, 18.745697, -4.7683716e-07, -13.444318)
 
-[node name="RigidBody3D" type="RigidBody3D" parent="MapObjects/TreePatch2/Tree2" unique_id=1658761616]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MapObjects/TreePatch2/Tree2/RigidBody3D" unique_id=1724313354]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.631714, 0)
-shape = SubResource("CapsuleShape3D_4cdhi")
-
 [node name="Tree3" parent="MapObjects/TreePatch2" unique_id=1573334443 instance=ExtResource("8_gjr3k")]
 transform = Transform3D(0.4228555, 0, 0.90619713, 0, 1, 0, -0.90619713, 0, 0.4228555, 17.13557, -4.7683716e-07, -33.500416)
-
-[node name="RigidBody3D" type="RigidBody3D" parent="MapObjects/TreePatch2/Tree3" unique_id=1724846290]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MapObjects/TreePatch2/Tree3/RigidBody3D" unique_id=788122564]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.631714, 0)
-shape = SubResource("CapsuleShape3D_4cdhi")
 
 [node name="Tree4" parent="MapObjects/TreePatch2" unique_id=563855511 instance=ExtResource("8_gjr3k")]
 transform = Transform3D(0.4228555, 0, 0.90619713, 0, 1, 0, -0.90619713, 0, 0.4228555, 21.040972, 0, -22.933659)
 
-[node name="RigidBody3D" type="RigidBody3D" parent="MapObjects/TreePatch2/Tree4" unique_id=1380572590]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MapObjects/TreePatch2/Tree4/RigidBody3D" unique_id=1134347984]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.631714, 0)
-shape = SubResource("CapsuleShape3D_4cdhi")
-
 [node name="Tree5" parent="MapObjects/TreePatch2" unique_id=1437129408 instance=ExtResource("8_gjr3k")]
 transform = Transform3D(0.4228555, 0, 0.90619713, 0, 1, 0, -0.90619713, 0, 0.4228555, 28.751701, 0, -23.468294)
-
-[node name="RigidBody3D" type="RigidBody3D" parent="MapObjects/TreePatch2/Tree5" unique_id=1602259375]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MapObjects/TreePatch2/Tree5/RigidBody3D" unique_id=527198269]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.631714, 0)
-shape = SubResource("CapsuleShape3D_4cdhi")
 
 [node name="Bush5" parent="MapObjects/TreePatch2" unique_id=1066332740 instance=ExtResource("9_4cdhi")]
 transform = Transform3D(0.12685664, 0, 0.27185914, 0, 0.29999998, 0, -0.27185914, 0, 0.12685664, 16.440544, 1.6379411e-06, -28.232582)

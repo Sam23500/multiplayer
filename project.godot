@@ -168,3 +168,5 @@ spell_select_right={
 3d_physics/layer_2="Walls"
 3d_physics/layer_3="Players"
 3d_physics/layer_4="Collision Objects"
+3d_physics/layer_5="Scenery"
+3d_physics/layer_8="Player Physics"

@@ -33,7 +33,7 @@ properties/1/replication_mode = 1
 
 [node name="Rock" type="RigidBody3D" unique_id=359719945 groups=["Interactables"]]
 collision_layer = 8
-collision_mask = 14
+collision_mask = 30
 gravity_scale = 2.0
 contact_monitor = true
 max_contacts_reported = 1
