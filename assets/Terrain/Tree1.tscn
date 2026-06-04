@@ -55,9 +55,9 @@ stencil_flags = 2
 
 [node name="tree07" type="Node3D" unique_id=1078811831]
 
-[node name="RigidBody3D" type="RigidBody3D" parent="." unique_id=249237418]
+[node name="RigidBody3D" type="StaticBody3D" parent="." unique_id=65164670]
 collision_layer = 16
-collision_mask = 155
+collision_mask = 31
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D" unique_id=2092853639]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.631714, 0)
