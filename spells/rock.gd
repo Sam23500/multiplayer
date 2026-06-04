@@ -24,7 +24,7 @@ func setup():
 	add_to_group("interactables")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if !multiplayer.is_server():
 		if last_sync_pos == Vector3.ZERO:
 			global_position = sync_pos

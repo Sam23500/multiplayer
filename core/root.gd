@@ -19,7 +19,7 @@ func _ready() -> void:
 	NetworkManager.player_disconnected.connect(_on_player_disconnected)
 	NetworkManager.server_disconnected.connect(_on_server_disconnected)
 
-func _on_player_connected(pid, info):
+func _on_player_connected(_pid, info):
 	connection_timer.stop()
 	if info["connection_type"] == "dedicated":
 		dedicated_correction = 1

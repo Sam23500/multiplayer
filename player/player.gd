@@ -167,8 +167,8 @@ func check_spell_cast():
 		#if Input.is_action_pressed("move_back"):
 			#cast_spell.rpc_id(1, spell_book.get_active_spell_name(), global_position, global_rotation, 0, 0)
 		#else:
-		cast_spell.rpc_id(1, get_spell_data(spell))
-	if Input.is_action_just_pressed("spell_right") and focus_object:
+		cast_spell.rpc_id(1, get_spell_data(spell, false), false)
+	if Input.is_action_just_pressed("spell_right"):
 		if focus_object is Rock:
 			var rock : Rock = focus_object
 			request_rock_hit.rpc_id(1, rock.get_path(), global_position) 
@@ -193,17 +193,23 @@ func _on_player_disconnected(pid) -> void:
 		queue_free()
 	pass
 
-func get_spell_data(spell: String) -> Array:
+func get_spell_data(spell: String, is_right: bool) -> Array:
 	var data = [spell]
 	if spell == "Rock":
-		data.append_array([global_position, global_rotation, velocity.x, velocity.z])
+		if is_right:
+			pass
+		else:
+			data.append_array([global_position, global_rotation, velocity.x, velocity.z])
 	return data
 
 @rpc("authority", "call_local")
-func cast_spell(data: Array):
+func cast_spell(data: Array, is_right: bool):
 	if !multiplayer.is_server():
 		return
-	spell_functions_l[data[0]].call(data)
+	if is_right:
+		spell_functions_r[data[0]].call(data)
+	else:
+		spell_functions_l[data[0]].call(data)
 
 func cast_rock(data):
 	projectile_spawner.spawn_function = create_rock
@@ -217,6 +223,9 @@ func create_rock(data):
 	projectile.linear_velocity.z += data[4]
 	projectile.setup()
 	return projectile
+
+func hit_rock():
+	pass
 
 @rpc("any_peer", "call_local")
 func get_hit(damage: int):

@@ -8,7 +8,3 @@ func _ready() -> void:
 
 func on_health_changed(new_value: int):
 	value = new_value
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
