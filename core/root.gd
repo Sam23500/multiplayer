@@ -53,6 +53,7 @@ func _on_connection_timer_timeout() -> void:
 	$MainMenuStuff/PlayersJoined.text = "Connection Timed Out"
 
 func _on_server_disconnected() -> void:
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	# Back to main menu
 	var levels_children = $Game.get_children()
 	for child in levels_children:
