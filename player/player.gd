@@ -9,7 +9,10 @@ var is_local_player := false
 
 var focus_object : CollisionObject3D = null
 
-var spell_functions_l : Dictionary[String, Callable]
+var spell_functions_l : Dictionary[String, Callable] = {
+	"Rock" : cast_rock,
+	"Lightning" : cast_rock,
+}
 var spell_functions_r : Dictionary[String, Callable]
 var spell_scenes : Dictionary[String, PackedScene] = {
 	"Rock" = preload("res://spells/rock.tscn"),
@@ -70,13 +73,11 @@ func _ready() -> void:
 	GameManager.player_info[id]["username"] = username
 	$PlayerInfoDisplay/SubViewport/NameTag.text = username
 	$PlayerInfoDisplay/SubViewport/NameTag.shrink_to_fit()
-	projectile_spawner.spawn_function = setup_projectile
 	#GameManager.player_info[int(name)] = {"username":username, "spawnpoint":syncPos, "node":self}
 	NetworkManager.player_disconnected.connect(_on_player_disconnected)
 	health_changed.connect(GameManager.on_health_changed)
 	if is_local_player:
 		info_display.queue_free()
-
 
 func _physics_process(delta: float) -> void:
 	
@@ -157,15 +158,16 @@ func check_spell_select():
 		spell_book.set_active(2)
 
 func check_spell_cast():
-	if !spell_scenes.has(spell_book.get_active_spell_name()): return
-	if spell_book.get_active_spell_name() == "Empty": return
+	var spell = spell_book.get_active_spell_name()
+	if !spell_scenes.has(spell): return
+	if spell == "Empty": return
 	if Input.is_action_just_pressed("spell_left"):
 		if !spell_book.is_spell_l_available(): return
 		start_cooldown_l()
 		#if Input.is_action_pressed("move_back"):
 			#cast_spell.rpc_id(1, spell_book.get_active_spell_name(), global_position, global_rotation, 0, 0)
 		#else:
-		cast_spell.rpc_id(1, spell_book.get_active_spell_name(), global_position, global_rotation, velocity.x, velocity.z)
+		cast_spell.rpc_id(1, get_spell_data(spell))
 	if Input.is_action_just_pressed("spell_right") and focus_object:
 		if focus_object is Rock:
 			var rock : Rock = focus_object
@@ -191,13 +193,23 @@ func _on_player_disconnected(pid) -> void:
 		queue_free()
 	pass
 
+func get_spell_data(spell: String) -> Array:
+	var data = [spell]
+	if spell == "Rock":
+		data.append_array([global_position, global_rotation, velocity.x, velocity.z])
+	return data
+
 @rpc("authority", "call_local")
-func cast_spell(spell_name: String, pos: Vector3, dir: Vector3, x_speed: float, z_speed: float):
+func cast_spell(data: Array):
 	if !multiplayer.is_server():
 		return
-	projectile_spawner.spawn([spell_name, pos, dir, x_speed, z_speed])
+	spell_functions_l[data[0]].call(data)
 
-func setup_projectile(data):
+func cast_rock(data):
+	projectile_spawner.spawn_function = create_rock
+	projectile_spawner.spawn(data)
+
+func create_rock(data):
 	var projectile : Node = spell_scenes[data[0]].instantiate()
 	projectile.position = data[1]
 	projectile.rotation = data[2]

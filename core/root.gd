@@ -32,6 +32,8 @@ func _on_player_disconnected(_pid):
 # If any player presses this, it starts the game for everyone
 @rpc("any_peer", "call_local", "reliable")
 func load_game():
+	if NetworkManager.players[1].is_empty():
+		NetworkManager.create_game()
 	if multiplayer.is_server():
 		# only server loads scene. MultiplayerSpawner spawns it for everyone
 		var level = game_scene.instantiate()
