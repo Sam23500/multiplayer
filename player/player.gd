@@ -164,9 +164,6 @@ func check_spell_cast():
 	if Input.is_action_just_pressed("spell_left"):
 		if !spell_book.is_spell_l_available(): return
 		start_cooldown_l()
-		#if Input.is_action_pressed("move_back"):
-			#cast_spell.rpc_id(1, spell_book.get_active_spell_name(), global_position, global_rotation, 0, 0)
-		#else:
 		cast_spell.rpc_id(1, get_spell_data(spell, false), false)
 	if Input.is_action_just_pressed("spell_right"):
 		if focus_object is Rock:
@@ -199,7 +196,7 @@ func get_spell_data(spell: String, is_right: bool) -> Array:
 		if is_right:
 			pass
 		else:
-			data.append_array([global_position, global_rotation, velocity.x, velocity.z])
+			data.append_array([global_position, global_rotation, id])
 	return data
 
 @rpc("authority", "call_local")
@@ -219,8 +216,7 @@ func create_rock(data):
 	var projectile : Node = spell_scenes[data[0]].instantiate()
 	projectile.position = data[1]
 	projectile.rotation = data[2]
-	projectile.linear_velocity.x += data[3]
-	projectile.linear_velocity.z += data[4]
+	projectile.summoner = get_node("../" + str(id))
 	projectile.setup()
 	return projectile
 

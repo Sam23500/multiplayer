@@ -1,6 +1,8 @@
 class_name Rock
 extends RigidBody3D
 
+var summoner : Player
+
 var sync_pos : Vector3
 var last_sync_pos : Vector3
 var used := false
@@ -33,9 +35,16 @@ func _physics_process(_delta: float) -> void:
 			visible = true
 		last_sync_pos = sync_pos
 		return
-	if !get_collision_mask_value(1):
-		if linear_velocity.y < 0:
+	if linear_velocity.y < 0:
+		if !get_collision_mask_value(1):
 			set_collision_mask_value(1,true)
+	if not used:
+		rotation = summoner.rotation
+		var forward_dir = -transform.basis.z
+		forward_dir.y = 0
+		forward_dir = forward_dir.normalized()
+		position.x = summoner.position.x + (forward_dir.x*2)
+		position.z = summoner.position.z + (forward_dir.z*2)
 	sync_pos = global_position
 	last_sync_pos = sync_pos
 	last_vel = linear_velocity
