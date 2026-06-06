@@ -11,10 +11,11 @@ var focus_object : CollisionObject3D = null
 
 var spell_functions_l : Dictionary[String, Callable] = {
 	"Rock" : cast_rock,
-	"Lightning" : cast_rock,
+	"Lightning" : cast_lightning,
 }
 var spell_functions_r : Dictionary[String, Callable] = {
-	"Rock" : hit_rock
+	"Rock" : hit_rock,
+	"Lightning" : shoot_lightning,
 }
 var spell_scenes : Dictionary[String, PackedScene] = {
 	"Rock" = preload("res://spells/rock.tscn"),
@@ -103,7 +104,6 @@ func _physics_process(delta: float) -> void:
 	
 	check_spell_select()
 	check_spell_cast()
-
 func do_sprint_stuff(delta: float):
 	if Input.is_action_just_pressed("sprint_toggle"):
 		if sprint_on or !exhausted:
@@ -129,14 +129,12 @@ func do_sprint_stuff(delta: float):
 			exhausted = false
 		if stamina > max_stamina:
 			stamina = max_stamina
-
 func do_jump_stuff(delta: float):
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 	
 	if Input.is_action_just_pressed("jump") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
-
 func do_move_stuff():
 	var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
 	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y))
@@ -147,7 +145,6 @@ func do_move_stuff():
 	else:
 		velocity.x = move_toward(velocity.x, 0, max_speed)
 		velocity.z = move_toward(velocity.z, 0, max_speed)
-
 func check_spell_select():
 	if Input.is_action_just_pressed("spell_select_left"):
 		spell_book.decrement_active()
@@ -159,7 +156,6 @@ func check_spell_select():
 		spell_book.set_active(1)
 	if Input.is_action_just_pressed("spell_select_2"):
 		spell_book.set_active(2)
-
 func check_spell_cast():
 	var spell = spell_book.get_active_spell_name()
 	if !spell_scenes.has(spell): return
@@ -185,12 +181,6 @@ func request_rock_hit(rock_path: NodePath, hit_from: Vector3):
 	var rock = get_node_or_null(rock_path)
 	if rock and rock is Rock:
 		rock.hit.rpc(hit_from)
-
-func _on_player_disconnected(pid) -> void:
-	if pid == int(name):
-		GameManager.player_info.erase(pid)
-		queue_free()
-	pass
 
 func get_spell_data(spell: String, is_right: bool) -> Array:
 	var data = [spell]
@@ -234,6 +224,15 @@ func hit_rock(data):
 		request_rock_hit.rpc_id(1, rock.get_path(), data[2]) 
 	spell_book.end_cooldown_r()
 
+func cast_lightning(data):
+	var l = preload("res://spells/lightning.tscn").instantiate()
+	add_child(l)
+	await get_tree().create_timer(1).timeout
+	l.shoot()
+
+func shoot_lightning(data):
+	pass
+
 @rpc("any_peer", "call_local")
 func get_hit(damage: int):
 	if is_multiplayer_authority():
@@ -243,3 +242,9 @@ func get_hit(damage: int):
 func knockback(vector: Vector3):
 	if is_multiplayer_authority():
 		velocity += vector
+
+func _on_player_disconnected(pid) -> void:
+	if pid == int(name):
+		GameManager.player_info.erase(pid)
+		queue_free()
+	pass

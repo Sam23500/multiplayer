@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://bbem1lr3ux4p4"]
+
+[ext_resource type="Script" uid="uid://c4hohtkqdafcw" path="res://spells/lightning_shot.gd" id="1_4akrl"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4akrl"]
+transparency = 1
+albedo_color = Color(1, 1, 1, 0.6666667)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_a48ky"]
+material = SubResource("StandardMaterial3D_4akrl")
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_a48ky"]
+
+[node name="Shot" type="Area3D" unique_id=257026339]
+script = ExtResource("1_4akrl")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=702651693]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
+mesh = SubResource("CylinderMesh_a48ky")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1574878401]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
+shape = SubResource("CylinderShape3D_a48ky")
