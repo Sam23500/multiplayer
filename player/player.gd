@@ -213,8 +213,12 @@ func cast_spell(data: Array, is_right: bool):
 		spell_functions_l[data[0]].call(data)
 
 func cast_rock(data):
-	projectile_spawner.spawn_function = create_rock
+	set_spawn_function.rpc_id(1, create_rock)
 	projectile_spawner.spawn(data)
+
+@rpc("any_peer", "call_local")
+func set_spawn_function(function: Callable):
+	projectile_spawner.spawn_function = function
 
 func create_rock(data):
 	var projectile : Node = spell_scenes[data[0]].instantiate()
