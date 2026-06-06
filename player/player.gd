@@ -21,7 +21,7 @@ var spell_scenes : Dictionary[String, PackedScene] = {
 	"Lightning" = preload("res://spells/lightning.tscn"),
 }
 var projectile_container : Node
-var projectile_spawner : MultiplayerSpawner
+var rock_spawner : MultiplayerSpawner
 
 var spell_book := SpellBook.new()
 
@@ -66,6 +66,7 @@ func _enter_tree():
 		add_child(cam)
 
 func _ready() -> void:
+	rock_spawner.spawn_function = cast_rock
 	spell_book.append_spell("Rock", 0.5, 0.0)
 	spell_book.append_spell("Lightning", 0.5, 0.0)
 	syncPos = global_position
@@ -213,12 +214,7 @@ func cast_spell(data: Array, is_right: bool):
 		spell_functions_l[data[0]].call(data)
 
 func cast_rock(data):
-	set_spawn_function.rpc_id(1, create_rock)
-	projectile_spawner.spawn(data)
-
-@rpc("any_peer", "call_local")
-func set_spawn_function(function: Callable):
-	projectile_spawner.spawn_function = function
+	rock_spawner.spawn(data)
 
 func create_rock(data):
 	var projectile : Node = spell_scenes[data[0]].instantiate()
