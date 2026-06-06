@@ -9,9 +9,11 @@ var used := false
 
 var last_vel := Vector3.ZERO
 
+func _enter_tree() -> void:
+	set_multiplayer_authority(int(str(summoner.name)))
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	set_multiplayer_authority(int(str(summoner.name)))
 	if !is_multiplayer_authority():
 		visible = false
 		freeze = true
@@ -54,7 +56,7 @@ func _physics_process(delta: float) -> void:
 	last_vel = linear_velocity
 
 
-@rpc("authority", "call_local")
+@rpc("any_peer", "call_local")
 func hit(from: Vector3):
 	if used:
 		return
@@ -90,7 +92,7 @@ func explode(collider_path: NodePath, damage: int):
 		target.knockback.rpc(knockback)
 		target.get_hit.rpc(damage)
 
-@rpc("authority","call_local")
+@rpc("any_peer","call_local")
 func delete():
 	queue_free()
 
