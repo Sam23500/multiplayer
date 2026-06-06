@@ -13,7 +13,9 @@ var spell_functions_l : Dictionary[String, Callable] = {
 	"Rock" : cast_rock,
 	"Lightning" : cast_rock,
 }
-var spell_functions_r : Dictionary[String, Callable]
+var spell_functions_r : Dictionary[String, Callable] = {
+	"Rock" : hit_rock
+}
 var spell_scenes : Dictionary[String, PackedScene] = {
 	"Rock" = preload("res://spells/rock.tscn"),
 	"Lightning" = preload("res://spells/lightning.tscn"),
@@ -166,10 +168,9 @@ func check_spell_cast():
 		start_cooldown_l()
 		cast_spell.rpc_id(1, get_spell_data(spell, false), false)
 	if Input.is_action_just_pressed("spell_right"):
-		if focus_object is Rock:
-			var rock : Rock = focus_object
-			request_rock_hit.rpc_id(1, rock.get_path(), global_position) 
-			spell_book.end_cooldown_l()
+		if !spell_book.is_spell_r_available(): return
+		start_cooldown_r()
+		cast_spell.rpc_id(1, get_spell_data(spell, true), true)
 
 func start_cooldown_l():
 	get_tree().create_timer(spell_book.start_cooldown_l()).timeout.connect(spell_book.end_cooldown_l.bind(spell_book._active_index))
@@ -194,7 +195,10 @@ func get_spell_data(spell: String, is_right: bool) -> Array:
 	var data = [spell]
 	if spell == "Rock":
 		if is_right:
-			pass
+			if not focus_object:
+				data.append_array([null, global_position])
+			else:
+				data.append_array([focus_object.get_path(), global_position])
 		else:
 			data.append_array([global_position, global_rotation, id])
 	return data
@@ -220,8 +224,15 @@ func create_rock(data):
 	projectile.setup()
 	return projectile
 
-func hit_rock():
-	pass
+func hit_rock(data):
+	if not data[1]: 
+		spell_book.end_cooldown_r()
+		return
+	var target = get_node(data[1])
+	if target is Rock:
+		var rock : Rock = target
+		request_rock_hit.rpc_id(1, rock.get_path(), data[2]) 
+	spell_book.end_cooldown_r()
 
 @rpc("any_peer", "call_local")
 func get_hit(damage: int):
