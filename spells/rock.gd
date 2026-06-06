@@ -26,7 +26,7 @@ func setup():
 	add_to_group("interactables")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _physics_process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	if !multiplayer.is_server():
 		if last_sync_pos == Vector3.ZERO:
 			global_position = sync_pos
@@ -43,8 +43,11 @@ func _physics_process(_delta: float) -> void:
 		var forward_dir = -transform.basis.z
 		forward_dir.y = 0
 		forward_dir = forward_dir.normalized()
+		var last_pos = global_position
 		position.x = summoner.position.x + (forward_dir.x*2)
 		position.z = summoner.position.z + (forward_dir.z*2)
+		linear_velocity.x = (global_position.x - last_pos.x)/delta
+		linear_velocity.z = (global_position.z - last_pos.z)/delta
 	sync_pos = global_position
 	last_sync_pos = sync_pos
 	last_vel = linear_velocity
