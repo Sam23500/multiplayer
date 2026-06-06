@@ -83,7 +83,7 @@ func explode(collider_path: NodePath, damage: int):
 	var target: Node = get_node_or_null(collider_path)
 	if !target:
 		return
-	if target is Player and is_multiplayer_authority():
+	if target is Player and multiplayer.is_server():
 		if last_sync_pos == Vector3.ZERO:
 			last_sync_pos = global_position
 		var knockback = knockback_calc((target.global_position - last_sync_pos).normalized())
