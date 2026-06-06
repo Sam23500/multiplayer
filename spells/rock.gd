@@ -12,7 +12,7 @@ var last_vel := Vector3.ZERO
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	set_multiplayer_authority(int(str(summoner.name)))
-	if is_multiplayer_authority():
+	if !is_multiplayer_authority():
 		visible = false
 		freeze = true
 
@@ -28,7 +28,7 @@ func setup():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
-	if is_multiplayer_authority():
+	if !is_multiplayer_authority():
 		if last_sync_pos == Vector3.ZERO:
 			global_position = sync_pos
 		global_position = lerp(global_position, sync_pos, 0.5)
