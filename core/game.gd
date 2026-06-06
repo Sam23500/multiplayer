@@ -50,6 +50,6 @@ func spawn_player(data):
 	player.position = spawnpoint
 	player.name = str(pid)
 	player.projectile_container = $Projectiles
-	player.projectile_spawner = $Projectiles/MultiplayerSpawner
+	player.rock_spawner = $Projectiles/RockSpawner
 	
 	return player

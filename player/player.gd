@@ -66,7 +66,7 @@ func _enter_tree():
 		add_child(cam)
 
 func _ready() -> void:
-	rock_spawner.spawn_function = cast_rock
+	rock_spawner.spawn_function = create_rock
 	spell_book.append_spell("Rock", 0.5, 0.0)
 	spell_book.append_spell("Lightning", 0.5, 0.0)
 	syncPos = global_position
