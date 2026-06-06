@@ -220,7 +220,7 @@ func create_rock(data):
 	var projectile : Node = spell_scenes[data[0]].instantiate()
 	projectile.position = data[1]
 	projectile.rotation = data[2]
-	projectile.summoner = get_node("../" + str(id))
+	projectile.summoner = get_node("../" + str(data[3]))
 	projectile.setup()
 	return projectile
 
