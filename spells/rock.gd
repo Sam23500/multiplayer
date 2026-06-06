@@ -11,6 +11,7 @@ var last_vel := Vector3.ZERO
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	set_multiplayer_authority(int(str(summoner.name)))
 	if !multiplayer.is_server():
 		visible = false
 		freeze = true
