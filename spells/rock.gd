@@ -12,7 +12,7 @@ var last_vel := Vector3.ZERO
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	set_multiplayer_authority(int(str(summoner.name)))
-	if !multiplayer.is_server():
+	if is_multiplayer_authority():
 		visible = false
 		freeze = true
 
@@ -28,7 +28,7 @@ func setup():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
-	if !multiplayer.is_server():
+	if is_multiplayer_authority():
 		if last_sync_pos == Vector3.ZERO:
 			global_position = sync_pos
 		global_position = lerp(global_position, sync_pos, 0.5)
@@ -83,7 +83,7 @@ func explode(collider_path: NodePath, damage: int):
 	var target: Node = get_node_or_null(collider_path)
 	if !target:
 		return
-	if target is Player and multiplayer.is_server():
+	if target is Player and is_multiplayer_authority():
 		if last_sync_pos == Vector3.ZERO:
 			last_sync_pos = global_position
 		var knockback = knockback_calc((target.global_position - last_sync_pos).normalized())
