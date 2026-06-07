@@ -26,7 +26,7 @@ func setup():
 	forward_dir = forward_dir.normalized()
 	position += (forward_dir*2)
 	position.y = 0
-	linear_velocity.y = 10
+	linear_velocity.y = 9
 	add_to_group("interactables")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
