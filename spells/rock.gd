@@ -17,6 +17,7 @@ func _ready() -> void:
 	if !is_multiplayer_authority():
 		visible = false
 		freeze = true
+		collision_layer = 0
 
 @rpc("authority", "call_local")
 func setup():
@@ -36,6 +37,7 @@ func _physics_process(delta: float) -> void:
 		global_position = lerp(global_position, sync_pos, 0.5)
 		if visible == false and last_sync_pos != sync_pos:
 			visible = true
+			set_collision_layer_value(4, true)
 		last_sync_pos = sync_pos
 		return
 	if linear_velocity.y < 0:
@@ -81,7 +83,6 @@ func _on_body_entered(body: Node) -> void:
 
 @rpc("authority", "call_local")
 func explode(collider_path: NodePath, damage: int):
-	if !multiplayer.is_server(): return
 	queue_free()
 	var target: Node = get_node_or_null(collider_path)
 	if !target:
