@@ -186,7 +186,7 @@ func request_rock_hit(rock_path: NodePath, hit_from: Vector3):
 		rock.hit.rpc(hit_from)
 
 func get_spell_data(spell: String, is_right: bool) -> Array:
-	var data = [spell]
+	var data = [spell, id]
 	if spell == "Rock":
 		if is_right:
 			if not focus_object:
@@ -194,7 +194,7 @@ func get_spell_data(spell: String, is_right: bool) -> Array:
 			else:
 				data.append_array([focus_object.get_path(), global_position])
 		else:
-			data.append_array([global_position, global_rotation, id])
+			data.append_array([global_position, global_rotation])
 	return data
 
 @rpc("authority", "call_local")
@@ -211,36 +211,42 @@ func cast_rock(data):
 
 func create_rock(data):
 	var projectile : Node = spell_scenes[data[0]].instantiate()
-	projectile.position = data[1]
-	projectile.rotation = data[2]
-	projectile.summoner = get_node("../" + str(data[3]))
+	projectile.position = data[2]
+	projectile.rotation = data[3]
+	projectile.summoner = get_node("../" + str(data[1]))
 	projectile.setup()
 	return projectile
 
 func hit_rock(data):
-	if not data[1]: 
+	if not data[2]: 
 		spell_book.end_cooldown_r()
 		return
-	var target = get_node(data[1])
+	var target = get_node(data[2])
 	if target is Rock:
 		var rock : Rock = target
-		request_rock_hit.rpc_id(1, rock.get_path(), data[2]) 
+		request_rock_hit.rpc_id(1, rock.get_path(), data[3]) 
 	spell_book.end_cooldown_r()
 
-func cast_lightning(data):
+func cast_lightning(_data):
 	var l = preload("res://spells/lightning.tscn").instantiate()
 	add_child(l)
 	await get_tree().create_timer(1).timeout
 	l.shoot()
 
-func shoot_lightning(data):
+func shoot_lightning(_data):
 	pass
 
 func cast_light(data):
-	$MeshInstance3D.mesh.material.emission_enabled = true
+	var caller = get_node("../" + str(data[1]))
+	caller.set_glow.rpc(true)
 
 func light_off(data):
-	$MeshInstance3D.mesh.material.emission_enabled = false
+	var caller = get_node("../" + str(data[1]))
+	caller.set_glow.rpc(false)
+
+@rpc("any_peer", "call_local")
+func set_glow(on: bool):
+	$MeshInstance3D.mesh.material.emission_enabled = on
 
 @rpc("any_peer", "call_local")
 func get_hit(damage: int):

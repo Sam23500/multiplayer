@@ -5,10 +5,12 @@
 [ext_resource type="Script" uid="uid://cub1m0l3hrl8t" path="res://name_tag.gd" id="3_i3pqv"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g1dw6"]
+resource_local_to_scene = true
 emission = Color(1, 1, 1, 1)
-emission_energy_multiplier = 10.15
+emission_energy_multiplier = 16.0
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_4flbx"]
+resource_local_to_scene = true
 material = SubResource("StandardMaterial3D_g1dw6")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_onrkg"]

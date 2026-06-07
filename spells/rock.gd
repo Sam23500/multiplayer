@@ -81,6 +81,7 @@ func _on_body_entered(body: Node) -> void:
 
 @rpc("authority", "call_local")
 func explode(collider_path: NodePath, damage: int):
+	if !multiplayer.is_server(): return
 	delete.rpc()
 	var target: Node = get_node_or_null(collider_path)
 	if !target:
