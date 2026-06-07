@@ -12,10 +12,12 @@ var focus_object : CollisionObject3D = null
 var spell_functions_l : Dictionary[String, Callable] = {
 	"Rock" : cast_rock,
 	"Lightning" : cast_lightning,
+	"Light" : cast_light,
 }
 var spell_functions_r : Dictionary[String, Callable] = {
 	"Rock" : hit_rock,
 	"Lightning" : shoot_lightning,
+	"Light" : light_off
 }
 var spell_scenes : Dictionary[String, PackedScene] = {
 	"Rock" = preload("res://spells/rock.tscn"),
@@ -70,6 +72,7 @@ func _ready() -> void:
 	rock_spawner.spawn_function = create_rock
 	spell_book.append_spell("Rock", 0.5, 0.0)
 	spell_book.append_spell("Lightning", 0.5, 0.0)
+	spell_book.append_spell("Light",0.5,0.0)
 	syncPos = global_position
 	id = int(name)
 	username = NetworkManager.players[id]["username"]
@@ -158,7 +161,7 @@ func check_spell_select():
 		spell_book.set_active(2)
 func check_spell_cast():
 	var spell = spell_book.get_active_spell_name()
-	if !spell_scenes.has(spell): return
+	if !spell_functions_l.has(spell): return
 	if spell == "Empty": return
 	if Input.is_action_just_pressed("spell_left"):
 		if !spell_book.is_spell_l_available(): return
@@ -232,6 +235,12 @@ func cast_lightning(data):
 
 func shoot_lightning(data):
 	pass
+
+func cast_light(data):
+	$MeshInstance3D.mesh.material.emission_enabled = true
+
+func light_off(data):
+	$MeshInstance3D.mesh.material.emission_enabled = false
 
 @rpc("any_peer", "call_local")
 func get_hit(damage: int):
