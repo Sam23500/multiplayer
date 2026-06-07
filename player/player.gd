@@ -19,10 +19,7 @@ var spell_functions_r : Dictionary[String, Callable] = {
 	"Lightning" : shoot_lightning,
 	"Light" : light_off
 }
-var spell_scenes : Dictionary[String, PackedScene] = {
-	"Rock" = preload("res://spells/rock.tscn"),
-	"Lightning" = preload("res://spells/lightning.tscn"),
-}
+
 var projectile_container : Node
 var rock_spawner : MultiplayerSpawner
 
@@ -69,7 +66,7 @@ func _enter_tree():
 		add_child(cam)
 
 func _ready() -> void:
-	rock_spawner.spawn_function = create_rock
+	rock_spawner.spawn_function = GameManager.create_rock
 	spell_book.append_spell("Rock", 0.5, 0.0)
 	spell_book.append_spell("Lightning", 0.5, 0.0)
 	spell_book.append_spell("Light",0.5,0.0)
@@ -209,13 +206,7 @@ func cast_spell(data: Array, is_right: bool):
 func cast_rock(data):
 	rock_spawner.spawn(data)
 
-func create_rock(data):
-	var projectile : Node = spell_scenes[data[0]].instantiate()
-	projectile.position = data[2]
-	projectile.rotation = data[3]
-	projectile.summoner = get_node("../" + str(data[1]))
-	projectile.setup()
-	return projectile
+
 
 func hit_rock(data):
 	if not data[2]: 
