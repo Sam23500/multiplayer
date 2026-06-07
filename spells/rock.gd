@@ -82,7 +82,7 @@ func _on_body_entered(body: Node) -> void:
 @rpc("authority", "call_local")
 func explode(collider_path: NodePath, damage: int):
 	if !multiplayer.is_server(): return
-	delete.rpc()
+	queue_free()
 	var target: Node = get_node_or_null(collider_path)
 	if !target:
 		return
@@ -92,10 +92,6 @@ func explode(collider_path: NodePath, damage: int):
 		var knockback = knockback_calc((target.global_position - last_sync_pos).normalized())
 		target.knockback.rpc(knockback)
 		target.get_hit.rpc(damage)
-
-@rpc("any_peer","call_local")
-func delete():
-	queue_free()
 
 func knockback_calc(vector: Vector3):
 	var xz = Vector3(vector.x, 0, vector.z)
