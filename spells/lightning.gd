@@ -9,7 +9,7 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	length += delta * 52
+	length += delta * 5
 
 func shoot():
 	var bolt = shot_scene.instantiate()

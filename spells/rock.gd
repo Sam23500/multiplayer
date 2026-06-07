@@ -49,8 +49,8 @@ func _physics_process(delta: float) -> void:
 		var last_pos = global_position
 		position.x = summoner.position.x + (forward_dir.x*2)
 		position.z = summoner.position.z + (forward_dir.z*2)
-		linear_velocity.x = (global_position.x - last_pos.x)/delta
-		linear_velocity.z = (global_position.z - last_pos.z)/delta
+		linear_velocity.x = (global_position.x - last_pos.x)
+		linear_velocity.z = (global_position.z - last_pos.z)
 	sync_pos = global_position
 	last_sync_pos = sync_pos
 	last_vel = linear_velocity
