@@ -40,7 +40,7 @@ func load_game():
 		$Game.add_child(level)
 	$Background.visible = false
 	$MainMenuStuff.visible = false
-	
+
 func join_game():
 	print(multiplayer.get_unique_id())
 	NetworkManager.join_game($MainMenuStuff/HostIP.text)

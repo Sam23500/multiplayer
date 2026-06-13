@@ -3,10 +3,13 @@ extends Node
 @onready var spawns: Node = $Spawnpoints
 @onready var players: Node = $Players
 
+
 @export var player_scene:PackedScene
 @onready var player_spawner: MultiplayerSpawner = $Players/PlayerSpawner
 
 var is_dedicated = false
+
+var pausable = true
 
 func _ready() -> void:
 	if NetworkManager.players.is_empty():
@@ -23,6 +26,9 @@ func _ready() -> void:
 	player_spawner.spawn_function = spawn_player
 	if multiplayer.is_server():
 		spawn_all_players()
+
+func _physics_process(delta: float) -> void:
+	pass
 
 
 func spawn_all_players():

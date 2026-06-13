@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://6grs3vx1s6od" path="res://core/goblin_hole.gd" id="7_gjr3k"]
 [ext_resource type="PackedScene" uid="uid://jw6fa8cd17rg" path="res://assets/Terrain/Tree1.tscn" id="8_gjr3k"]
 [ext_resource type="PackedScene" uid="uid://ctaicnhmkk2wl" path="res://assets/Terrain/Bush1.tscn" id="9_4cdhi"]
+[ext_resource type="PackedScene" uid="uid://b8p8aplqjfspq" path="res://core/pause.tscn" id="11_bpu47"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_bpu47"]
 panorama = ExtResource("3_fgh25")
@@ -359,3 +360,5 @@ transform = Transform3D(0.1691422, 0, 0.36247885, 0, 0.4, 0, -0.36247885, 0, 0.1
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="Spawnables" unique_id=182697175]
 spawn_path = NodePath("..")
+
+[node name="Pause" parent="." unique_id=882149884 instance=ExtResource("11_bpu47")]

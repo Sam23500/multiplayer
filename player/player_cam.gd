@@ -30,13 +30,14 @@ func _input(event):
 
 
 func _physics_process(delta: float) -> void:
-	if Input.is_action_just_pressed("escape"):
-		if active:
-			active = false
-			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-		else:
-			active = true
-			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	pass
+#	if Input.is_action_just_pressed("escape"):
+#		if active:
+#			active = false
+#			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+#		else:
+#			active = true
+#			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	
 	if not active:
 		return

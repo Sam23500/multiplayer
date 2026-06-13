@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://b8p8aplqjfspq"]
+
+[ext_resource type="Script" uid="uid://doo0k1hbswt63" path="res://core/pause.gd" id="1_okre4"]
+[ext_resource type="Theme" uid="uid://33p8pjnjvodd" path="res://assets/theme.tres" id="2_3ofr8"]
+
+[node name="Pause" type="Node" unique_id=882149884]
+process_mode = 3
+script = ExtResource("1_okre4")
+
+[node name="Control" type="Control" parent="." unique_id=1069646090]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Panel" type="Panel" parent="Control" unique_id=1129530030]
+layout_mode = 0
+offset_left = -270.0
+offset_top = -355.0
+offset_right = 271.0
+offset_bottom = 331.0
+metadata/_edit_lock_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/Panel" unique_id=1233116232]
+layout_mode = 0
+offset_left = 58.0
+offset_top = 144.0
+offset_right = 479.0
+offset_bottom = 572.0
+theme = ExtResource("2_3ofr8")
+alignment = 1
+
+[node name="Resume" type="Button" parent="Control/Panel/VBoxContainer" unique_id=590568138]
+layout_mode = 2
+text = "Resume"
+
+[node name="Settings" type="Button" parent="Control/Panel/VBoxContainer" unique_id=36259915]
+layout_mode = 2
+text = "Settings"
+
+[node name="Quit" type="Button" parent="Control/Panel/VBoxContainer" unique_id=1341949714]
+layout_mode = 2
+text = "Quit"
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1072929084]
+
+[connection signal="pressed" from="Control/Panel/VBoxContainer/Resume" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="Control/Panel/VBoxContainer/Quit" to="." method="_on_quit_pressed"]
