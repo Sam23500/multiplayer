@@ -6,6 +6,7 @@ signal health_changed(new_value: int)
 var id : int
 var username := ""
 var is_local_player := false
+var paused := false
 
 var focus_object : CollisionObject3D = null
 
@@ -80,6 +81,8 @@ func _ready() -> void:
 	#GameManager.player_info[int(name)] = {"username":username, "spawnpoint":syncPos, "node":self}
 	NetworkManager.player_disconnected.connect(_on_player_disconnected)
 	health_changed.connect(GameManager.on_health_changed)
+	GameManager.game_paused.connect(on_game_paused)
+	GameManager.game_resumed.connect(on_game_resumed)
 	if is_local_player:
 		info_display.queue_free()
 
@@ -90,7 +93,10 @@ func _physics_process(delta: float) -> void:
 		position = lerp(position, syncPos, 0.5)
 		healthbar.value = health
 		return
-		
+	
+	if paused:
+		return
+	
 	if health < 1:
 		health = max_health
 		position = Vector3(0,100,0)
@@ -206,8 +212,6 @@ func cast_spell(data: Array, is_right: bool):
 func cast_rock(data):
 	rock_spawner.spawn(data)
 
-
-
 func hit_rock(data):
 	if not data[2]: 
 		spell_book.end_cooldown_r()
@@ -254,3 +258,9 @@ func _on_player_disconnected(pid) -> void:
 		GameManager.player_info.erase(pid)
 		queue_free()
 	pass
+
+func on_game_paused():
+	paused = true
+
+func on_game_resumed():
+	paused = false

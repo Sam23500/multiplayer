@@ -13,8 +13,11 @@ var current_focus: Object
 var previous_focus: Object
 
 var active := true
+var paused := false
 
 func _ready():
+	GameManager.game_paused.connect(on_game_paused)
+	GameManager.game_resumed.connect(on_game_resumed)
 	if is_multiplayer_authority():
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	else:
@@ -22,7 +25,7 @@ func _ready():
 	sightline.target_position = Vector3(0,0,-sight_range)
 
 func _input(event):
-	if event is InputEventMouseMotion and active:
+	if event is InputEventMouseMotion and not paused and active:
 		get_parent().rotate_y(-event.relative.x * mouse_sensitivity)
 		
 		rotation.x -= event.relative.y * mouse_sensitivity
@@ -39,7 +42,7 @@ func _physics_process(delta: float) -> void:
 #			active = true
 #			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	
-	if not active:
+	if paused or not active:
 		return
 	
 	var cam_joystick := Input.get_vector("cam_left", "cam_right", "cam_up", "cam_down")
@@ -76,3 +79,11 @@ func deactivate_focus_object(collider: Object):
 	if not target.is_in_group("Interactables"):
 		return
 	target.deactivate()
+
+func on_game_paused():
+	paused = true
+	active = false
+
+func on_game_resumed():
+	paused = false
+	active = true

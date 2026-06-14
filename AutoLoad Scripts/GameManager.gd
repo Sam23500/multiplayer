@@ -3,7 +3,11 @@ extends Node
 # Autoload named Game Manager
 
 signal local_health_changed(value: int)
+signal game_paused
+signal game_resumed
 
+var pausable := true
+var paused := false
 var player_info := {}
 
 var spell_scenes : Dictionary[String, PackedScene] = {
@@ -23,3 +27,11 @@ func create_rock(data):
 	projectile.summoner = summoner
 	projectile.setup()
 	return projectile
+
+func on_game_paused():
+	paused = true
+	game_paused.emit()
+
+func on_game_resumed():
+	paused = false
+	game_resumed.emit()

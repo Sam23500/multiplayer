@@ -9,8 +9,6 @@ extends Node
 
 var is_dedicated = false
 
-var pausable = true
-
 func _ready() -> void:
 	if NetworkManager.players.is_empty():
 		# singleplayer situation
