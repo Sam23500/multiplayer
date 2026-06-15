@@ -25,8 +25,8 @@ func _ready() -> void:
 	if multiplayer.is_server():
 		spawn_all_players()
 
-func _physics_process(delta: float) -> void:
-	pass
+#func _physics_process(delta: float) -> void:
+	#pass
 
 
 func spawn_all_players():

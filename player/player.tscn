@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://cp6o0egq4smi0" path="res://player/player.gd" id="1_onrkg"]
 [ext_resource type="Theme" uid="uid://33p8pjnjvodd" path="res://assets/theme.tres" id="2_onrkg"]
 [ext_resource type="Script" uid="uid://cub1m0l3hrl8t" path="res://name_tag.gd" id="3_i3pqv"]
+[ext_resource type="PackedScene" uid="uid://0g85wah2h4k0" path="res://spells/lightning.tscn" id="4_yw30f"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g1dw6"]
 resource_local_to_scene = true
@@ -73,3 +74,7 @@ text = "User"
 horizontal_alignment = 1
 vertical_alignment = 2
 script = ExtResource("3_i3pqv")
+
+[node name="ConnectedSpells" type="Node3D" parent="." unique_id=1478455242]
+
+[node name="Lightning" parent="ConnectedSpells" unique_id=1615904719 instance=ExtResource("4_yw30f")]

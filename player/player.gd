@@ -8,6 +8,7 @@ var username := ""
 var is_local_player := false
 var paused := false
 
+@onready var lightning : Lightning = $ConnectedSpells/Lightning
 var focus_object : CollisionObject3D = null
 
 var spell_functions_l : Dictionary[String, Callable] = {
@@ -68,9 +69,7 @@ func _enter_tree():
 
 func _ready() -> void:
 	rock_spawner.spawn_function = GameManager.create_rock
-	spell_book.append_spell("Rock", 0.5, 0.0)
-	spell_book.append_spell("Lightning", 0.5, 0.0)
-	spell_book.append_spell("Light",0.5,0.0)
+	setup_default_spells()
 	syncPos = global_position
 	id = int(name)
 	username = NetworkManager.players[id]["username"]
@@ -85,6 +84,11 @@ func _ready() -> void:
 	GameManager.game_resumed.connect(on_game_resumed)
 	if is_local_player:
 		info_display.queue_free()
+
+func setup_default_spells():
+	spell_book.append_spell("Rock", 0.5, 0.0)
+	spell_book.append_spell("Lightning", 0.5, 0.0)
+	spell_book.append_spell("Light",0.5,0.0)
 
 func _physics_process(delta: float) -> void:
 	
@@ -198,12 +202,17 @@ func get_spell_data(spell: String, is_right: bool) -> Array:
 				data.append_array([focus_object.get_path(), global_position])
 		else:
 			data.append_array([global_position, global_rotation])
+	if spell == "Lightning":
+		if is_right:
+			pass
+		else: 
+			pass
 	return data
 
 @rpc("authority", "call_local")
 func cast_spell(data: Array, is_right: bool):
-	if !multiplayer.is_server():
-		return
+	#if !multiplayer.is_server():
+		#return
 	if is_right:
 		spell_functions_r[data[0]].call(data)
 	else:
@@ -223,13 +232,10 @@ func hit_rock(data):
 	spell_book.end_cooldown_r()
 
 func cast_lightning(_data):
-	var l = preload("res://spells/lightning.tscn").instantiate()
-	add_child(l)
-	await get_tree().create_timer(1).timeout
-	l.shoot()
+	lightning.start()
 
 func shoot_lightning(_data):
-	pass
+	lightning.shoot()
 
 func cast_light(data):
 	var caller = get_node("../" + str(data[1]))

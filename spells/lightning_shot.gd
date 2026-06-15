@@ -13,6 +13,7 @@ func _ready() -> void:
 	position += forward_dir*(length/2+0.5)
 	mesh.mesh.height = length
 	hitbox.shape.height = length
+	get_tree().create_timer(1).timeout.connect(queue_free)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
